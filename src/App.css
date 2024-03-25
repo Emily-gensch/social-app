@@ -26,3 +26,28 @@
   --smallFontSize: .813rem;
 }
 
+img {
+  width: 100%;
+  height: auto;
+}
+
+.flex {
+  display: flex;
+  align-items: center;  
+}
+
+.grid {
+  display: grid;
+  align-items: center;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px gray;
+  padding: .8rem 1rem;
+}
+
+

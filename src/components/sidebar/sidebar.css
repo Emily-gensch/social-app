@@ -1,0 +1,25 @@
+/* Default Colors and Styles */
+:root{
+    --redColor: #CD374F;
+    --blueColor: #1D6AB5;
+    --purpleColor: #3B008F;
+    --pinkColor: #ED6E83;
+    --lightBlue: #9EC4EA;
+    --lightPurple: #C268D6;
+    --backgroundColor: #F8F5DE;
+  
+    --h1FontSize: 1.5rem;
+    --h2FontSize: 1.25rem;
+    --h3FontSize: 1rem;
+    --normalFontSize: .938rem;
+    --smallFontSize: .813rem;
+}
+
+.sideBar {
+    background: white;
+    box-shadow: 1px 0px 2px gray;
+    max-width: 18%;
+    height: 100%;
+    gap: 3rem;
+    overflow: auto;
+}
