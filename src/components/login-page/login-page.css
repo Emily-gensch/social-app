@@ -1,0 +1,13 @@
+.site {
+    display: flex;
+    flex-direction: inherit;
+    align-items: center;
+}
+
+.title {
+    margin-top: 20px;
+    font-size: 40px;
+    font-weight: 200px;
+    font-style: italic;
+    color: var(--redColor);
+}
