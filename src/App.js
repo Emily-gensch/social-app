@@ -6,8 +6,8 @@ import "./App.css";
 const App = () => {
   return (
     <div className="container">
-      <Sidebar/>
       <Body/>
+      <Sidebar/>
     </div>
   )
 };

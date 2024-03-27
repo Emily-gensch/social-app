@@ -1,4 +1,4 @@
-.main-content {
+.container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -8,4 +8,10 @@
     height: 100%;
     padding: 0rem;
     overflow: auto;
+    background-color: var(--backgroundColor);
+}
+
+.title {
+    text-align: center;
+    width:100%;
 }
