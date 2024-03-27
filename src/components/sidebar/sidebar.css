@@ -25,20 +25,22 @@
     flex-direction: column;
     gap: 15px;
     overflow: auto;
-}
 
-.main-content {
-    position: relative;
+    .calendar {
+        padding-top: 3rem;
+        width: 90%;
+        align-self: center;
+    }
     
+    .header {
+        text-align: center;
+    }
+    
+    .line {
+        position: relative;
+        margin: auto;
+        width: 275px;
+        border-bottom: 1px solid black;
+    }
 }
 
-.header {
-    text-align: center;
-}
-
-.line {
-    position: absolute;
-    top: 50;
-    width: 100%;
-    border-bottom: 1px solid black;
-}

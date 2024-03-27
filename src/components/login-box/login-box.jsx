@@ -6,7 +6,7 @@ export default function LogInBox() {
     const [action, setAction] = useState("Sign Up");
 
     return (
-       <div className="container">
+       <div className="login-page">
             <div className="header">
                 <div className="text">{action}</div>
                 <div className="inputs">
