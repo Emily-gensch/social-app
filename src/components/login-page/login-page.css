@@ -5,9 +5,10 @@
 }
 
 .login-title {
-    margin-top: 20px;
-    font-size: 40px;
-    font-weight: 200px;
-    font-style: italic;
+    margin-top: 10px;
+    font-size: var(--h1FontSize);
+    font-weight: 100px;
     color: var(--redColor);
+    text-align: center;
+    font-style: italic;
 }
