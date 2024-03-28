@@ -16,10 +16,31 @@
 }
 
 .sideBar {
+    float: right;
     background: white;
-    box-shadow: 1px 0px 2px gray;
-    max-width: 18%;
-    height: 100%;
-    gap: 3rem;
+    box-shadow: 1px 0px 4px gray;
+    width: 35vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     overflow: auto;
+
+    .calendar {
+        padding-top: 3rem;
+        width: 90%;
+        align-self: center;
+    }
+    
+    .header {
+        text-align: center;
+    }
+    
+    .line {
+        position: relative;
+        margin: auto;
+        width: 275px;
+        border-bottom: 1px solid black;
+    }
 }
+

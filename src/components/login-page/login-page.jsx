@@ -5,7 +5,7 @@ import "./login-page.css";
 export default function LogIn() {
     return (
         <div className="site">
-            { /* <div className="title">
+            { /* <div className="login-title">
                 Welcome to EventCo!
     </div> */ }
             <LogInBox />
