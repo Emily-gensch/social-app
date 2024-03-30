@@ -124,3 +124,7 @@
     border-radius: 50px;
     cursor: pointer;
 }
+
+.buffer {
+    margin: 20px;
+}

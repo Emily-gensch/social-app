@@ -23,7 +23,7 @@ export default function LogInBox() {
                         <input type="password" placeholder="Password" />
                     </div>
                 </div>
-                {action==="Sign Up" ? <div></div> : <div className="forgot-password"><span>Forgot Password?</span></div>}
+                {action==="Sign Up" ? <div className="buffer"></div> : <div className="forgot-password"><span>Forgot Password?</span></div>}
                 <div className="submit-button" onClick={()=>{setSubmit("Submit")}}>Submit</div>
             </div>
         </div>
