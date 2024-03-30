@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../body/body.css";
 
@@ -10,12 +11,38 @@ const clubs = [
 ];
 
 const EventForm = () => {
-  const [events, setEvents] = useState([]);
+  const [event, setEvent] = useState({
+    name: "",
+    cat: "",
+    description: "",
+    approved: 0,
+    rso: "",
+  });
+  const [error, setError] = useState(false);
 
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setEvent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:8800/events", event);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+
+  /*
   useEffect(() => {
     const fetchAllEvents = async () => {
       try {
-        const res = await axios.get("http:localhost:8800/events");
+        const res = await axios.get("//localhost:8800/events");
+        setEvents(res.data);
         console.log(res);
       } catch (err) {
         console.log(err);
@@ -23,7 +50,9 @@ const EventForm = () => {
     };
     fetchAllEvents();
   }, []);
+  */
 
+  /*
   const [selectedClub, setSelectedClub] = useState("");
   const [eventName, setEventName] = useState("");
   const [eventCategory, setEventCategory] = useState("");
@@ -69,14 +98,18 @@ const EventForm = () => {
     setContactEmail("");
   };
 
+  */
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="clubSelect">Select Club:</label>
+    <div className="form">
+      <h1>Add New Event</h1>
+      <div className="clubDropdown">
+        <label htmlFor="clubSelect">Select RSO:</label>
         <select
-          id="clubSelect"
-          value={selectedClub}
-          onChange={handleClubChange}
+          type="select"
+          placeholder="Select RSO"
+          name="rso"
+          onChange={handleChange}
         >
           <option value="">Select a club</option>
           {clubs.map((club) => (
@@ -86,58 +119,107 @@ const EventForm = () => {
           ))}
         </select>
       </div>
-      {selectedClub && (
+      <input
+        type="text"
+        placeholder="Event name"
+        name="name"
+        onChange={handleChange}
+      />
+      <textarea
+        rows={5}
+        type="text"
+        placeholder="Event description"
+        name="description"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        placeholder="Event category"
+        name="cat"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        placeholder="Cover image"
+        name="cover"
+        onChange={handleChange}
+      />
+      <button onClick={handleClick}>Add</button>
+      {error && "Something went wrong!"}
+      <Link to="/">See all books</Link>
+    </div>
+
+    /*
+    <div className="form">
+      <form onSubmit={handleSubmit}>
         <div>
-          <div>
-            <label htmlFor="eventName">Event Name:</label>
-            <input
-              type="text"
-              id="eventName"
-              value={eventName}
-              onChange={(e) => setEventName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="eventCategory">Event Category:</label>
-            <input
-              type="text"
-              id="eventCategory"
-              value={eventCategory}
-              onChange={(e) => setEventCategory(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="description">Event Description:</label>
-            <input
-              type="text"
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="contactPhone">Contact Phone:</label>
-            <input
-              type="text"
-              id="contactPhone"
-              value={contactPhone}
-              onChange={(e) => setContactPhone(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="contactEmail">Contact Email:</label>
-            <input
-              type="text"
-              id="contactEmail"
-              value={contactEmail}
-              onChange={(e) => setContactEmail(e.target.value)}
-            />
-          </div>
-          {/* Add map component for selecting location */}
-          <button type="submit">Submit</button>
+          <label htmlFor="clubSelect">Select Club:</label>
+          <select
+            id="clubSelect"
+            value={selectedClub}
+            onChange={handleClubChange}
+          >
+            <option value="">Select a club</option>
+            {clubs.map((club) => (
+              <option key={club.id} value={club.name}>
+                {club.name}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
-    </form>
+        {selectedClub && (
+          <div>
+            <div>
+              <label htmlFor="eventName">Event Name:</label>
+              <input
+                type="text"
+                id="eventName"
+                value={eventName}
+                onChange={(e) => setEventName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="eventCategory">Event Category:</label>
+              <input
+                type="text"
+                id="eventCategory"
+                value={eventCategory}
+                onChange={(e) => setEventCategory(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Event Description:</label>
+              <input
+                type="text"
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="contactPhone">Contact Phone:</label>
+              <input
+                type="text"
+                id="contactPhone"
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="contactEmail">Contact Email:</label>
+              <input
+                type="text"
+                id="contactEmail"
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+              />
+            </div>
+            <button type="submit">Submit</button>
+          </div>
+        )}
+      </form>
+    </div>
+    */
   );
 };
 
