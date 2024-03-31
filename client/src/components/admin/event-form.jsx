@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import DateTimePicker from "react-datetime-picker";
+import "react-datetime-picker/dist/DateTimePicker.css";
 import "../body/body.css";
 
 const clubs = [
@@ -15,15 +17,39 @@ const EventForm = () => {
     name: "",
     cat: "",
     description: "",
-    approved: 0,
+    datetime: new Date(),
+    loc: "",
+    rso_phone: "",
+    rso_email: "",
     rso: "",
+    approved: 0,
+    cover: "",
   });
   const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setEvent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+
+    // If the changed input is the club select
+    if (name === "rso") {
+      // Update the approved property based on the selected club
+      const approvedValue = value === "No RSO" ? 0 : 1;
+      setEvent((prevEvent) => ({
+        ...prevEvent,
+        [name]: value,
+        approved: approvedValue,
+      }));
+    } else {
+      // For other inputs, update as usual
+      console.log("changed other input");
+      setEvent((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+    //setEvent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleClick = async (e) => {
@@ -36,69 +62,6 @@ const EventForm = () => {
       setError(true);
     }
   };
-
-  /*
-  useEffect(() => {
-    const fetchAllEvents = async () => {
-      try {
-        const res = await axios.get("//localhost:8800/events");
-        setEvents(res.data);
-        console.log(res);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchAllEvents();
-  }, []);
-  */
-
-  /*
-  const [selectedClub, setSelectedClub] = useState("");
-  const [eventName, setEventName] = useState("");
-  const [eventCategory, setEventCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-
-  const handleClubChange = (event) => {
-    setSelectedClub(event.target.value);
-  };
-
-  const handleMapLocationChange = (event) => {
-    // Handle location change from map
-    // This function will be implemented based on the map API being used
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission
-    console.log({
-      selectedClub,
-      eventName,
-      eventCategory,
-      description,
-      time,
-      date,
-      location,
-      contactPhone,
-      contactEmail,
-    });
-    // Clear form fields
-    setSelectedClub("");
-    setEventName("");
-    setEventCategory("");
-    setDescription("");
-    setTime("");
-    setDate("");
-    setLocation("");
-    setContactPhone("");
-    setContactEmail("");
-  };
-
-  */
 
   return (
     <div className="form">
@@ -125,6 +88,12 @@ const EventForm = () => {
         name="name"
         onChange={handleChange}
       />
+      <input
+        type="text"
+        placeholder="Event category"
+        name="cat"
+        onChange={handleChange}
+      />
       <textarea
         rows={5}
         type="text"
@@ -132,10 +101,29 @@ const EventForm = () => {
         name="description"
         onChange={handleChange}
       />
+      <DateTimePicker
+        onChange={(value) => {
+          const formattedDateTime = new Date(value)
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
+          const syntheticEvent = {
+            target: { name: "datetime", value: formattedDateTime },
+          };
+          handleChange(syntheticEvent);
+        }}
+        value={event.datetime}
+      />
       <input
         type="text"
-        placeholder="Event category"
-        name="cat"
+        placeholder="Contact phone number"
+        name="rso_phone"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        placeholder="Contact email address"
+        name="rso_email"
         onChange={handleChange}
       />
       <input
@@ -146,80 +134,8 @@ const EventForm = () => {
       />
       <button onClick={handleClick}>Add</button>
       {error && "Something went wrong!"}
-      <Link to="/">See all books</Link>
+      <Link to="/dashboard">See all books</Link>
     </div>
-
-    /*
-    <div className="form">
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="clubSelect">Select Club:</label>
-          <select
-            id="clubSelect"
-            value={selectedClub}
-            onChange={handleClubChange}
-          >
-            <option value="">Select a club</option>
-            {clubs.map((club) => (
-              <option key={club.id} value={club.name}>
-                {club.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        {selectedClub && (
-          <div>
-            <div>
-              <label htmlFor="eventName">Event Name:</label>
-              <input
-                type="text"
-                id="eventName"
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="eventCategory">Event Category:</label>
-              <input
-                type="text"
-                id="eventCategory"
-                value={eventCategory}
-                onChange={(e) => setEventCategory(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="description">Event Description:</label>
-              <input
-                type="text"
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="contactPhone">Contact Phone:</label>
-              <input
-                type="text"
-                id="contactPhone"
-                value={contactPhone}
-                onChange={(e) => setContactPhone(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="contactEmail">Contact Email:</label>
-              <input
-                type="text"
-                id="contactEmail"
-                value={contactEmail}
-                onChange={(e) => setContactEmail(e.target.value)}
-              />
-            </div>
-            <button type="submit">Submit</button>
-          </div>
-        )}
-      </form>
-    </div>
-    */
   );
 };
 

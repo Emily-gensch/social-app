@@ -32,7 +32,8 @@ app.get("/events", (req, res) => {
 });
 
 app.post("/events", (req, res) => {
-  const q = "INSERT INTO events (name, cat, description, datetime, loc, rso_phone, rso_email, rso, approved) VALUES (?)";
+  console.log(req.body);
+  const q = "INSERT INTO events (name, cat, description, datetime, loc, rso_phone, rso_email, rso, approved, cover) VALUES (?)";
 
   const values = [
     req.body.name,
@@ -44,10 +45,14 @@ app.post("/events", (req, res) => {
     req.body.rso_email,
     req.body.rso,
     req.body.approved,
+    req.body.cover,
   ];
 
   mydb.query(q, [values], (err, data) => {
-    if (err) return res.send(err);
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
     return res.json(data);
   });
 });
