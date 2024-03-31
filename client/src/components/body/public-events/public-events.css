@@ -8,6 +8,21 @@
 
 .slick-prev:before,
 .slick-next:before {
-    color: var(--redColor)!important;
+    color: rgb(149, 149, 149)!important;
     font-size: 30px;
+  }
+
+  .public-header {
+    font-size: 30px;
+    font-weight: 700;
+    margin-top: 60px;
+  }
+
+  .slick-dots {
+    bottom: -50px!important;
+  }
+
+.slick-list {
+    margin: 0 -100px;
+    padding: 100px;
   }

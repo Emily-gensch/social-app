@@ -8,7 +8,7 @@
     background: white;
     width: 600px;
     border-radius: 25px;
-    box-shadow: 20px 20px var(--redColor);
+    box-shadow: 20px 20px var(--purpleColor);
 }
 
 .header {
@@ -76,7 +76,7 @@
 }
 
 .forgot-password span {
-    color: var(--blueColor);
+    color: var(--purpleColor);
     cursor: pointer;
     text-decoration: underline;
 }
@@ -95,13 +95,13 @@
     align-items: center;
     width: 220px;
     height: 59px;
-    color: var(--redColor);
+    color: var(--purpleColor);
     cursor: pointer;
-    border: 4px solid var(--redColor);
+    border: 4px solid var(--purpleColor);
 }
 
 .gray {
-    background-color: var(--redColor);
+    background-color: var(--purpleColor);
     color: white;
 }
 

@@ -16,7 +16,9 @@
 }
 
 .sideBar {
-    float: right;
+    position: fixed;
+    top: 0;
+    right: 0;
     background: white;
     box-shadow: 1px 0px 4px gray;
     width: 35vh;
@@ -29,7 +31,7 @@
     .calendar {
         padding-top: 3rem;
         width: 90%;
-        align-self: center;
+        margin: 0 auto;
     }
     
     .header {

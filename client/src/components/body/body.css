@@ -14,6 +14,57 @@
     .title {
         text-align: center;
         width:100%;
+        font-size: 70px;
+        font-weight: 500;
+        color: white;
+        z-index: 1;
+        text-shadow: 3px 3px 2px #1d3853;
+    }
+
+    .custom-user {
+        color: white;
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    .admin-button {
+        display: inline;
+        flex-direction: right;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        z-index: 1;
+    }
+
+    .admin-button button.admin {
+        width: 120px;
+        height: 40px;
+        background: black;
+        border-radius: 50px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .public-pos {
+        z-index: 1;
+    }
+
+    .current-view {
+        z-index: 1;
+        display:inline;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .location {
+        z-index: 1;
+        display: inline;
+        align-items: center;
+        text-align: center;
+        margin-left: 320px;
+    }
+
+    .custom-loc {
+        text-decoration: underline;
     }
 }
-

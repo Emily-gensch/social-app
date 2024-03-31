@@ -36,11 +36,11 @@ const settings = {
 export default function PrivateEvents() {
   return (
     <div className="w-3/4 m-auto">
-        <h3>Private Events</h3>
-        <div className="mt-20">
+        <h3 className="private-header">Private Events</h3>
+        <div className="mt-5">
         <Slider {...settings}>
             {data.map((d) => (
-                <div className="bg-white h-[450px] text-black rounded-xl">
+                <div className="bg-white h-[450px] text-black rounded-xl shadow-[5px_5px_var(--blueColor)]">
                     <div className="h-56 rounded-t-xl bg-#CD374F flex justify-center items-center">
                         <img src={flyer} alt="" className="h-44 w-44 rounded-md"/>
                     </div>
@@ -48,7 +48,7 @@ export default function PrivateEvents() {
                     <div className="flex flex-col justify-center items-center gap-4 p-4">
                         <p className="text-xl font-semibold">{d.name}</p>
                         <p>{d.date}</p>
-                        <button className="bg-[#CD374F] text-white text-lg px-6 py-1 rounded xl">Details</button>
+                        <button className="bg-[#1D6AB5] text-white text-lg px-6 py-1 rounded xl">Details</button>
                     </div>
                 </div>
             ))}

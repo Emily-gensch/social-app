@@ -59,11 +59,11 @@ const settings = {
 const PublicEvents = () => {
   return (
     <div className="w-3/4 m-auto">
-      <h3>Public Events</h3>
-      <div className="mt-10">
+      <h3 className="public-header">Public Events</h3>
+      <div className="mt-5">
         <Slider {...settings}>
           {data.map((d) => (
-            <div className="bg-white h-[400px] text-black rounded-xl /*shadow-[5px_5px_var(--redColor)]*/ "> 
+            <div className="bg-white h-[400px] text-black rounded-xl shadow-[5px_5px_var(--redColor)] "> 
               <div className="h-56 rounded-t-xl bg-#CD374F flex justify-center items-center">
                 <img src={flyer} alt="" className="h-44 w-44 rounded-md" />
               </div>
