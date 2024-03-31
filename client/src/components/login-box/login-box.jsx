@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from "react-router-dom";
 import "./login-box.css";
 
 export default function LogInBox() {
@@ -9,13 +10,14 @@ export default function LogInBox() {
     return (
        <div className="login-page">
             <div className="header">
-                <div className="welcome">Welcome to EventCo!</div>
-                <div className="underline"></div>
                 <div className="submit-container">
                     <div className={action==="Sign Up" ? "submit gray" : "submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
                     <div className={action==="Login" ? "submit gray" : "submit"} onClick={()=>{setAction("Login")}}>Login</div>
                 </div>
                 <div className="inputs">
+                    {action==="Login" ? <div></div> : <div className="input">
+                        <input type="name" placeholder="Name" />
+                    </div>}
                     <div className="input">
                         <input type="email" placeholder="Email" />
                     </div>
@@ -24,7 +26,11 @@ export default function LogInBox() {
                     </div>
                 </div>
                 {action==="Sign Up" ? <div className="buffer"></div> : <div className="forgot-password"><span>Forgot Password?</span></div>}
-                <div className="submit-button" onClick={()=>{setSubmit("Submit")}}>Submit</div>
+                <div className="buffer"></div>
+                <Link to="/dashboard"><button className="submit-button">
+                    Submit
+                </button></Link>
+                <div className="buffer"></div>
             </div>
         </div>
     )

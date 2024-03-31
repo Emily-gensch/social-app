@@ -6,3 +6,8 @@
     margin: 0 10px;
 }
 
+.slick-prev:before,
+.slick-next:before {
+    color: var(--redColor)!important;
+    font-size: 30px;
+  }

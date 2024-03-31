@@ -9,16 +9,17 @@ import Home from "./pages/home/home";
 import NoPage from "./pages/no-page/no-page";
 
 export default function App() {
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout /> }>
-          <Route index element={<Home />} />
+        <Route element={<Layout />}/>
+          <Route path="/" index element={<Home />} />
           <Route path="login" element={<LogIn />} />
           <Route path="admin" element={<Admin />} /> 
           <Route path="dashboard" element={<Dashboard />} />   
           <Route path="*" element={<NoPage />} />
-        </Route>
+          
       </Routes>
     </BrowserRouter>
   );
