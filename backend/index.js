@@ -31,8 +31,19 @@ app.get("/events", (req, res) => {
   });
 });
 
+app.get("/unapprovedevents", (req, res) => {
+  const q = "SELECT * FROM events WHERE approved = 0";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.get("/publicevents", (req, res) => {
-  const q = "SELECT * FROM events WHERE cat = 'Public'";
+  const q = "SELECT * FROM events WHERE cat = 'Public' AND approved = 1";
   mydb.query(q, (err, data) => {
     if (err) {
       console.log(err);
