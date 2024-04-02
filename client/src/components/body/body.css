@@ -45,6 +45,24 @@
         align-items: center;
     }
 
+    .create-rso-button {
+        display: inline;
+        flex-direction: right;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        z-index: 1;
+    }
+
+    .create-rso-button button.create-rso {
+        width: 120px;
+        height: 40px;
+        background: black;
+        border-radius: 50px;
+        justify-content: center;
+        align-items: center;
+    }
+
     .public-pos {
         z-index: 1;
     }

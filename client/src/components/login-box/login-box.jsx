@@ -18,6 +18,9 @@ export default function LogInBox() {
                     {action==="Login" ? <div></div> : <div className="input">
                         <input type="name" placeholder="Name" />
                     </div>}
+                    {action==="Login" ? <div></div> : <div className="input">
+                        <input type="university" placeholder="University" />
+                    </div>}
                     <div className="input">
                         <input type="email" placeholder="Email" />
                     </div>

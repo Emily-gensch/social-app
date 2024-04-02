@@ -7,6 +7,7 @@ import Dashboard from "./pages/dashboard/dashboard";
 import Admin from "./pages/admin/admin";
 import Home from "./pages/home/home";
 import NoPage from "./pages/no-page/no-page";
+import CreateRSO from './pages/create-rso/create-rso';
 
 export default function App() {
 
@@ -17,7 +18,8 @@ export default function App() {
           <Route path="/" index element={<Home />} />
           <Route path="login" element={<LogIn />} />
           <Route path="admin" element={<Admin />} /> 
-          <Route path="dashboard" element={<Dashboard />} />   
+          <Route path="dashboard" element={<Dashboard />} /> 
+          <Route path="create-rso" element={<CreateRSO />} />    
           <Route path="*" element={<NoPage />} />
           
       </Routes>
