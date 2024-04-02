@@ -31,6 +31,28 @@ app.get("/events", (req, res) => {
   });
 });
 
+app.get("/publicevents", (req, res) => {
+  const q = "SELECT * FROM events WHERE cat = 'Public'";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/privateevents", (req, res) => {
+  const q = "SELECT * FROM events WHERE cat = 'Private'";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.post("/events", (req, res) => {
   console.log(req.body);
   const q = "INSERT INTO events (name, cat, description, datetime, loc, rso_phone, rso_email, rso, approved, cover) VALUES (?)";
