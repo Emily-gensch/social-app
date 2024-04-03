@@ -8,10 +8,13 @@ export default function LogInBox() {
     username: "",
     university: "",
     email: "",
+    password: "",
     admin: false,
   });
 
   const [error, setError] = useState(false);
+
+  const [logInState, setLogInState] = useState("");
 
   const navigate = useNavigate();
 
@@ -19,11 +22,30 @@ export default function LogInBox() {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleClick = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8800/users", user);
-      navigate("/");
+      navigate("/dashboard");
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:8800/login", {
+        email: user.email, 
+        password: user.password
+      });
+      if (response.data.message==="Incorrect email/password.") {
+        setLogInState("Incorrect email/password.");
+      } else {
+        navigate("/dashboard");
+      }
+      console.log(response.data);
     } catch (err) {
       console.log(err);
       setError(true);
@@ -54,13 +76,20 @@ export default function LogInBox() {
             Login
           </div>
         </div>
+
+        {action === "Sign Up" ? (
+          <div className="buffer"></div>
+        ) : (
+          <div></div>
+        )}
+
         <div className="inputs">
           {action === "Login" ? (
             <div></div>
           ) : (
             <div className="input">
               <input
-                type="name"
+                type="text"
                 name="username"
                 placeholder="Name"
                 onChange={handleChange}
@@ -72,7 +101,7 @@ export default function LogInBox() {
           ) : (
             <div className="input">
               <input
-                type="university"
+                type="text"
                 name="university"
                 placeholder="University"
                 onChange={handleChange}
@@ -97,21 +126,25 @@ export default function LogInBox() {
           </div>
         </div>
         {action === "Sign Up" ? (
-          <div className="buffer"></div>
+          <div></div>
         ) : (
           <div className="forgot-password">
             <span>Forgot Password?</span>
           </div>
         )}
+
         <div className="buffer"></div>
-        <Link to="/dashboard">
-          <button className="submit-button" onClick={handleClick}>
-            Submit
-          </button>
-        </Link>
-        {error && "Something went wrong!"}
+
+        <button className="submit-button" onClick={action==="Sign Up" ? handleSignUp : handleLogin}>
+          {action === "Sign Up" ? "Sign Up" : "Login"}
+        </button>
+
         <div className="buffer"></div>
+
+        <div className="incorrect">{logInState}</div>
+        
       </div>
+
     </div>
   );
 }

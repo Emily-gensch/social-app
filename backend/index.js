@@ -9,7 +9,7 @@ app.use(express.json());
 const mydb = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Zerotwo11!",
+  password: "2215",
   database: "mydb",
 });
 
@@ -122,7 +122,7 @@ app.put("/events/:id", (req, res) => {
 });
 
 // users table
-/* var user_sql = "CREATE TABLE users (userid INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), university VARCHAR(255), admin BOOLEAN)";
+/* var user_sql = "CREATE TABLE users (userid INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), university VARCHAR(255), email VARCHAR(255), password VARCHAR(255), admin BOOLEAN)";
 mydb.query(user_sql, function (err, result) {
   if (err) throw err;
   console.log("Users table created!");
@@ -140,9 +140,18 @@ mydb.query(junction_sql, function (err, result) {
   console.log("Junction table created!");
   }) */
 
-
-
 app.get("/users", (req, res) => {
+  const q = "SELECT * FROM users";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/login", (req, res) => {
   const q = "SELECT * FROM users";
   mydb.query(q, (err, data) => {
     if (err) {
@@ -166,12 +175,13 @@ app.get("/rsos", (req, res) => {
 
 app.post("/users", (req, res) => {
   console.log(req.body);
-  const q = "INSERT INTO users (username, university, emails, admin) VALUES (?)";
+  const q = "INSERT INTO users (username, university, email, password, admin) VALUES (?)";
 
   const values = [
     req.body.username,
     req.body.university,
-    req.body.emails,
+    req.body.email,
+    req.body.password,
     req.body.admin,
   ];
 
@@ -181,6 +191,29 @@ app.post("/users", (req, res) => {
       return res.send(err);
     }
     return res.json(data);
+  });
+});
+
+app.post("/login", (req, res) => {
+  console.log(req.body);
+  const q = "SELECT * FROM users WHERE email = ? AND password = ?";
+
+  const values = [
+    req.body.email,
+    req.body.password,
+  ];
+
+  mydb.query(q, values, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    } else {
+      if (data.length > 0) {
+        res.json(data); // send the first user matching the credentials
+      } else {
+        res.send({ message: "Incorrect email/password."});
+      }
+    }
   });
 });
 
