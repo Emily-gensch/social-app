@@ -2,7 +2,7 @@ import React from "react";
 import ApprovalForm from "../../components/superadmin/approval-form";
 import { Link } from "react-router-dom";
 
-export default function Admin() {
+export default function SuperAdmin() {
   return (
     <div className="nav">
       <Link to="/dashboard">

@@ -13,8 +13,7 @@ const mydb = mysql.createConnection({
   database: "mydb",
 });
 
-// ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Zerotwo11!';
-
+// ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Zerotwo11!';.
 
 app.get("/", (req, res) => {
   res.json("hello");
@@ -118,6 +117,69 @@ app.put("/events/:id", (req, res) => {
 
   mydb.query(q, [...values,eventId], (err, data) => {
     if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+// users table
+/* var user_sql = "CREATE TABLE users (userid INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), university VARCHAR(255), admin BOOLEAN)";
+mydb.query(user_sql, function (err, result) {
+  if (err) throw err;
+  console.log("Users table created!");
+  })
+
+var rso_sql = "CREATE TABLE rsos (rsoid INT AUTO_INCREMENT PRIMARY KEY, rso_name VARCHAR(255), owner INT)";
+mydb.query(rso_sql, function (err, result) {
+  if (err) throw err;
+  console.log("RSO table created!");
+  })
+
+var junction_sql = "CREATE TABLE userRso (userid INT, rsoid INT, FOREIGN KEY (userid) REFERENCES users(userid), FOREIGN KEY (rsoid) REFERENCES rsos(rsoid))";
+mydb.query(junction_sql, function (err, result) {
+  if (err) throw err;
+  console.log("Junction table created!");
+  }) */
+
+
+
+app.get("/users", (req, res) => {
+  const q = "SELECT * FROM users";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/rsos", (req, res) => {
+  const q = "SELECT * FROM rsos";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/users", (req, res) => {
+  console.log(req.body);
+  const q = "INSERT INTO users (username, university, emails, admin) VALUES (?)";
+
+  const values = [
+    req.body.username,
+    req.body.university,
+    req.body.emails,
+    req.body.admin,
+  ];
+
+  mydb.query(q, [values], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
     return res.json(data);
   });
 });
