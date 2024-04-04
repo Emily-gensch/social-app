@@ -7,30 +7,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// import mysql connection
-/*
-var config = require("../../../database.js");
-var connection = config.connection;
-*/
-// select public events from table of events
-/*
-const selectQuery =
-  "SELECT name, cat, description FROM events WHERE cat = 'Public'";
-
-// query the events and print results
-con.query(selectQuery, (err, results, fields) => {
-  if (err) {
-    console.error("Error selcting events: ", err.message);
-    return;
-  }
-
-  results.forEach((event) => {
-    console.log("Name:", event.name);
-    console.log("Category:", event.cat);
-  });
-});
-*/
-
 const data = [
   {
     name: "Cultural Event",

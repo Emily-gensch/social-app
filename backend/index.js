@@ -184,6 +184,24 @@ app.post("/users", (req, res) => {
   });
 });
 
+app.post("/rsos", (req, res) => {
+  console.log(req.body);
+  const q = "INSERT INTO rsos (rso_name, owner) VALUES (?)";
+
+  const values = [
+    req.body.rso_name,
+    req.body.owner,
+  ];
+
+  mydb.query(q, [values], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.listen(8800, () => {
   console.log("Connected to backend.");
 });
