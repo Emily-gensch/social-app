@@ -126,3 +126,10 @@
 .buffer {
     margin: 20px;
 }
+
+.incorrect {
+    color: var(--redColor);
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
