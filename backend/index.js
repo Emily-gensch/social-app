@@ -194,7 +194,6 @@ app.post("/users", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 app.post("/rsos", (req, res) => {
   console.log(req.body);
   const q = "INSERT INTO rsos (rso_name, owner) VALUES (?)";
@@ -208,9 +207,12 @@ app.post("/rsos", (req, res) => {
     if (err){
       console.log(err);
       return res.send(err);
+    } else {
+      return res.json(data);
     }
-    return res.json(data);
-=======
+  });
+});
+
 app.post("/login", (req, res) => {
   console.log(req.body);
   const q = "SELECT * FROM users WHERE email = ? AND password = ?";
@@ -231,7 +233,6 @@ app.post("/login", (req, res) => {
         res.send({ message: "Incorrect email/password."});
       }
     }
->>>>>>> bea08ce5fb70be5a2bcb2a6f8f50b616c846ce47
   });
 });
 
