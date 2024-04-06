@@ -28,15 +28,15 @@ export default function RsoForm() {
     if (name === "rso") {
       // Update the approved property based on the selected club
       const approvedValue = value === "No RSO" ? 0 : 1;
-      setEvent((prevEvent) => ({
-        ...prevEvent,
+      setRso((prev) => ({
+        ...prev,
         [name]: value,
         approved: approvedValue,
       }));
     } else {
       // For other inputs, update as usual
       console.log("changed other input");
-      setEvent((prev) => ({
+      setRso((prev) => ({
         ...prev,
         [name]: value,
       }));
@@ -47,7 +47,7 @@ export default function RsoForm() {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8800/events", event);
+      await axios.post("http://localhost:8800/rsos", rso);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -92,19 +92,6 @@ export default function RsoForm() {
         placeholder="Event description"
         name="description"
         onChange={handleChange}
-      />
-      <DateTimePicker
-        onChange={(value) => {
-          const formattedDateTime = new Date(value)
-            .toISOString()
-            .slice(0, 19)
-            .replace("T", " ");
-          const syntheticEvent = {
-            target: { name: "datetime", value: formattedDateTime },
-          };
-          handleChange(syntheticEvent);
-        }}
-        value={event.datetime}
       />
       <input
         type="text"

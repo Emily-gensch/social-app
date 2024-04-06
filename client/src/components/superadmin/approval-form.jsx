@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../body/body.css";
 
 const ApprovalForm = () => {
+  // singular event
   const [event, setEvent] = useState({
     name: "",
     cat: "",
     description: "",
-    datetime: new Date(),
+    datetime: "",
     loc: "",
     rso_phone: "",
     rso_email: "",
@@ -16,40 +17,54 @@ const ApprovalForm = () => {
     approved: 0,
     cover: "",
   });
+  // array of all unapproved events
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const eventId = location.pathname.split("/")[2];
+  // fetch events from database that are unapproved
+  const fetchEvents = async () => {
+    try {
+      const res = await axios.get("http://localhost:8800/unapprovedevents");
+      setEvents(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await axios.get("http://localhost:8800/unapprovedevents");
-        setEvents(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     fetchEvents();
   }, []);
 
-  const handleClick = async (d) => {
-    //const updatedEvent = { ...d, approved: 1 };
+  const updateEvent = (d) => {
+    const formattedDateTime = new Date(d.datetime)
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
+    setEvent({
+      name: d.name,
+      cat: d.cat,
+      description: d.description,
+      datetime: formattedDateTime,
+      loc: d.loc,
+      rso_phone: d.rso_phone,
+      rso_email: d.rso_email,
+      rso: d.rso,
+      cover: d.cover
+    });
     setEvent((prev) => ({ ...prev, approved: 1 }));
-    console.log(event);
-    console.log(d.id);
-    console.log(d.name);
-    console.log(event.approved);
-    console.log(event);
-    //d.preventDefault();
+    {handleClick(d)};
+  };
 
+  // when approval button is clicked, update the event in the database
+  const handleClick = async (d) => {
     try {
       await axios.put(`http://localhost:8800/events/${d.id}`, event);
+      // refresh data on page
+      fetchEvents();
     } catch (err) {
-      console.log(err);
       setError(true);
     }
   };
@@ -61,7 +76,7 @@ const ApprovalForm = () => {
           <p className="text-xl font-semibold">{d.name}</p>
           <button
             className="bg-[#1D6AB5] text-white text-lg px-6 py-1 rounded xl"
-            onClick={() => handleClick(d)}
+            onClick={() => updateEvent(d)}
             name="approved"
           >
             Approve

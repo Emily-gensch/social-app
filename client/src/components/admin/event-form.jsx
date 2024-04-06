@@ -134,7 +134,7 @@ const EventForm = () => {
       />
       <button onClick={handleClick}>Add</button>
       {error && "Something went wrong!"}
-      <Link to="/dashboard">See all books</Link>
+      <Link to="/dashboard">See all events</Link>
     </div>
   );
 };

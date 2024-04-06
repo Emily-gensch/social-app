@@ -9,7 +9,7 @@ app.use(express.json());
 const mydb = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "2215",
+  password: "Zerotwo11!",
   database: "mydb",
 });
 
@@ -101,7 +101,10 @@ app.delete("/events/:id", (req, res) => {
 
 app.put("/events/:id", (req, res) => {
   const eventId = req.params.id;
-  const q = "UPDATE events SET `name`= ?, `cat`= ?, `description`= ?, `datetime`= ?, `loc`= ?, `rsp_phone`= ?, `rso_email`= ?, `rso`= ?, `approved `= ? WHERE id = ?";
+  const q = "UPDATE events SET approved = 1 WHERE id = ?";
+
+  // TO DO: Make it so we can update all the variables in an event
+  //const q = "UPDATE events SET name = ?, cat = ?, description = ?, datetime = ?, loc = ?, rso_phone = ?, rso_email = ?, rso = ?, approved = ?, cover = ? WHERE id = ?";
 
   const values = [
     req.body.name,
@@ -113,21 +116,40 @@ app.put("/events/:id", (req, res) => {
     req.body.rso_email,
     req.body.rso,
     req.body.approved,
+    req.body.cover,
   ];
 
-  mydb.query(q, [...values,eventId], (err, data) => {
-    if (err) return res.send(err);
+  // mydb.query(q, [...values, eventId], (err, data)
+
+  mydb.query(q, [...eventId], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    else{
+      console.log("no error");
+    }
     return res.json(data);
   });
 });
 
+// create all tables
+/*
 // users table
-/* var user_sql = "CREATE TABLE users (userid INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), university VARCHAR(255), email VARCHAR(255), password VARCHAR(255), admin BOOLEAN)";
+var user_sql = "CREATE TABLE users (userid INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), university VARCHAR(255), email VARCHAR(255), password VARCHAR(255), admin BOOLEAN)";
 mydb.query(user_sql, function (err, result) {
   if (err) throw err;
   console.log("Users table created!");
   })
 
+// events table
+var events_sql = "CREATE TABLE events (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), cat VARCHAR(255), description VARCHAR(255), datetime DATETIME, loc VARCHAR(255), rso_phone VARCHAR(255), rso_email VARCHAR(255), rso VARCHAR(255), approved BOOLEAN, cover VARCHAR(255))";
+mydb.query(events_sql, function (err, result) {
+  if (err) throw err;
+  console.log("Events table created!");
+  })
+
+// rsos table
 var rso_sql = "CREATE TABLE rsos (rsoid INT AUTO_INCREMENT PRIMARY KEY, rso_name VARCHAR(255), owner INT)";
 mydb.query(rso_sql, function (err, result) {
   if (err) throw err;
@@ -138,7 +160,8 @@ var junction_sql = "CREATE TABLE userRso (userid INT, rsoid INT, FOREIGN KEY (us
 mydb.query(junction_sql, function (err, result) {
   if (err) throw err;
   console.log("Junction table created!");
-  }) */
+  })
+*/
 
 app.get("/users", (req, res) => {
   const q = "SELECT * FROM users";
