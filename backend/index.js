@@ -9,7 +9,7 @@ app.use(express.json());
 const mydb = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Zerotwo11!",
+  password: "2215",
   database: "mydb",
 });
 
@@ -174,6 +174,19 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.get("/userid", (req, res) => {
+  const q = "SELECT * FROM users WHERE userid = ?";
+  id = req.body.userid;
+  mydb.query(q, id, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+
 app.get("/login", (req, res) => {
   const q = "SELECT * FROM users";
   mydb.query(q, (err, data) => {
@@ -187,6 +200,74 @@ app.get("/login", (req, res) => {
 
 app.get("/rsos", (req, res) => {
   const q = "SELECT * FROM rsos";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/useremail", (req, res) => {
+  const q = "SELECT * from users";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/users/:userid", (req, res) => {
+  const q = "SELECT * from users";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.put("/users", (req, res) => {
+  const q = "UPDATE users SET 'username' = ?, 'university' = ?, 'email' = ?, 'password' = ?, admin = ? WHERE userid = ?";
+  const userId = req.params.userid;
+  mydb.query(q, [req.body.username, req.body.university, req.body.email, req.body.password, req.body.admin, userId], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.post("/users/:userid", (req, res) => {
+  console.log(req.body);
+  const q = "SELECT * FROM users WHERE userid = ?";
+
+  const values = [
+    req.body.userid,
+  ];
+
+  mydb.query(q, values, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    } else {
+      if (data.length > 0) {
+        const user = data[0];
+        res.json({ user }); // send the first user matching the credentials
+      } else {
+        res.send({ message: "Incorrect email/password."});
+      }
+    }
+  });
+});
+
+app.get("/rsomembers", (req, res) => {
+  const q = "SELECT * from userRso";
   mydb.query(q, (err, data) => {
     if (err) {
       console.log(err);
@@ -231,6 +312,26 @@ app.post("/rsos", (req, res) => {
       console.log(err);
       return res.send(err);
     } else {
+      const rsoid = data.insertId;
+      return res.json({rsoid});
+    }
+  });
+});
+
+app.post("/rsomembers", (req, res) => {
+  console.log(req.body);
+  const q = "INSERT INTO userRso (userid, rsoid) VALUES (?)";
+
+  const values = [
+    req.body.userid,
+    req.body.rsoid,
+  ];
+
+  mydb.query(q, [values], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    } else {
       return res.json(data);
     }
   });
@@ -251,9 +352,55 @@ app.post("/login", (req, res) => {
       return res.status(500).json({ error: "Internal server error" });
     } else {
       if (data.length > 0) {
-        res.json(data); // send the first user matching the credentials
+        const user = data[0];
+        res.json({ user }); // send the first user matching the credentials
       } else {
         res.send({ message: "Incorrect email/password."});
+      }
+    }
+  });
+});
+
+app.post("/useremail", (req, res) => {
+  console.log(req.body);
+  const q = "SELECT * FROM users WHERE email = ?";
+
+  const values = [
+    req.body.email,
+  ];
+
+  mydb.query(q, values, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    } else {
+      if (data.length > 0) {
+        const user = data[0];
+        res.json({ user }); // send the first user matching the credentials
+      } else {
+        res.send({ message: "Unregistered user."});
+      }
+    }
+  });
+});
+
+app.post("/userid", (req, res) => {
+  console.log(req.body);
+  const q = "SELECT * FROM users WHERE userid = ?";
+
+  const values = [
+    req.body.userid,
+  ];
+
+  mydb.query(q, values, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    } else {
+      if (data.length > 0) {
+        res.json(data); // send the first user matching the credentials
+      } else {
+        res.send({ message: "Unregistered user."});
       }
     }
   });

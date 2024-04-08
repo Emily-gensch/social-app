@@ -25,8 +25,8 @@ export default function LogInBox() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8800/users", user);
-      navigate("/dashboard");
+      const response = await axios.post("http://localhost:8800/users", user);
+      setAction("Login");
     } catch (err) {
       console.log(err);
       setError(true);
@@ -43,6 +43,9 @@ export default function LogInBox() {
       if (response.data.message==="Incorrect email/password.") {
         setLogInState("Incorrect email/password.");
       } else {
+        const userData = response.data.user;
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        const userId = userData.userid;
         navigate("/dashboard");
       }
       console.log(response.data);
