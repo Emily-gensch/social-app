@@ -9,7 +9,7 @@ app.use(express.json());
 const mydb = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "2215",
+  password: "Zerotwo11!",
   database: "mydb",
 });
 
@@ -101,6 +101,7 @@ app.delete("/events/:id", (req, res) => {
 
 app.put("/events/:id", (req, res) => {
   const eventId = req.params.id;
+  console.log("eventid from backend:", eventId);
   const q = "UPDATE events SET approved = 1 WHERE id = ?";
 
   // TO DO: Make it so we can update all the variables in an event
@@ -154,40 +155,16 @@ var rso_sql = "CREATE TABLE rsos (rsoid INT AUTO_INCREMENT PRIMARY KEY, rso_name
 mydb.query(rso_sql, function (err, result) {
   if (err) throw err;
   console.log("RSO table created!");
-  })
+  }) 
 
 var junction_sql = "CREATE TABLE userRso (userid INT, rsoid INT, FOREIGN KEY (userid) REFERENCES users(userid), FOREIGN KEY (rsoid) REFERENCES rsos(rsoid))";
 mydb.query(junction_sql, function (err, result) {
   if (err) throw err;
   console.log("Junction table created!");
-  })
-*/
+  }) */
+
 
 app.get("/users", (req, res) => {
-  const q = "SELECT * FROM users";
-  mydb.query(q, (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.json(err);
-    }
-    return res.json(data);
-  });
-});
-
-app.get("/userid", (req, res) => {
-  const q = "SELECT * FROM users WHERE userid = ?";
-  id = req.body.userid;
-  mydb.query(q, id, (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.json(err);
-    }
-    return res.json(data);
-  });
-});
-
-
-app.get("/login", (req, res) => {
   const q = "SELECT * FROM users";
   mydb.query(q, (err, data) => {
     if (err) {
@@ -209,20 +186,10 @@ app.get("/rsos", (req, res) => {
   });
 });
 
-app.get("/useremail", (req, res) => {
-  const q = "SELECT * from users";
-  mydb.query(q, (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.json(err);
-    }
-    return res.json(data);
-  });
-});
-
 app.get("/users/:userid", (req, res) => {
-  const q = "SELECT * from users";
-  mydb.query(q, (err, data) => {
+  const id = req.params.userid;
+  const q = "SELECT * FROM mydb.users WHERE userid = ?";
+  mydb.query(q, id, (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
@@ -231,13 +198,27 @@ app.get("/users/:userid", (req, res) => {
   });
 });
 
-app.put("/users", (req, res) => {
-  const q = "UPDATE users SET 'username' = ?, 'university' = ?, 'email' = ?, 'password' = ?, admin = ? WHERE userid = ?";
+app.put("/users/:userid", (req, res) => {
   const userId = req.params.userid;
+  console.log("put id: ", userId)
+  const q = "UPDATE users SET admin = 1 WHERE userid = ?";
+  // const q = "UPDATE users SET 'username' = ?, 'university' = ?, 'email' = ?, 'password' = ?, admin = ? WHERE userid = ?";
+  /*
   mydb.query(q, [req.body.username, req.body.university, req.body.email, req.body.password, req.body.admin, userId], (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
+    }
+    return res.json(data);
+  });
+  */
+  mydb.query(q, userId, (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    else{
+      console.log("no error");
     }
     return res.json(data);
   });
