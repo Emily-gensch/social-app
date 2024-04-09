@@ -258,6 +258,19 @@ app.get("/rsomembers", (req, res) => {
   });
 });
 
+// fetch all the rso events associated with a user's id
+app.get("/yourrsos/:userId", (req, res) => {
+  const userId = req.params.userId;
+  const q = "SELECT e.* FROM events e JOIN rsos r ON e.rso = r.rso_name JOIN userrso ru ON r.rsoid = ru.rsoid WHERE ru.userid = ?";
+  mydb.query(q, userId, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 app.post("/users", (req, res) => {
   console.log(req.body);
   const q = "INSERT INTO users (username, university, email, password, admin) VALUES (?)";
