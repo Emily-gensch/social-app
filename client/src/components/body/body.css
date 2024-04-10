@@ -10,6 +10,24 @@
     overflow: hidden;
     background-color: var(--backgroundColor);
 
+    .dash-header {
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1;
+    }
+
+    .create-rso-button {
+        display: inline-block;
+        text-align: center;
+    }
+
+    .admin-button-container,
+.rso-button-container {
+    display: flex;
+    align-items: center;
+}
         
     .title {
         text-align: center;
@@ -46,7 +64,7 @@
     }
 
     .create-rso-button {
-        display: inline;
+        display: inline-block;
         flex-direction: right;
         justify-content: center;
         align-items: center;
@@ -61,6 +79,7 @@
         border-radius: 50px;
         justify-content: center;
         align-items: center;
+        z-index: 1;
     }
 
     .public-pos {
@@ -75,14 +94,16 @@
     }
 
     .location {
+        position: relative;
         z-index: 1;
-        display: inline;
-        align-items: center;
+        display: inline-block;
+        margin: 0 auto;
         text-align: center;
-        margin-left: 320px;
+        width:100%;
     }
 
     .custom-loc {
         text-decoration: underline;
     }
+
 }

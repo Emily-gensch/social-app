@@ -38,36 +38,40 @@ export default function Body() {
       </div>
 
       <div className="main-content">
-        <div className="admin-button">
-          {isAdmin === 0 ? (
-            <div></div>
-          ) : (
-            <div className="input">
-              <Link to="/admin">
-                <button className="admin">Add an Event</button>
-              </Link>
-            </div>
-          )}
-        </div>
-        <div className="create-rso-button">
-          <Link to="/create-rso">
-            <button className="create-rso">Create an RSO</button>
-          </Link>
-        </div>
-        <span>
-          <div className="location">Currently viewing</div>{" "}
-          <span className="custom-loc">{loc}</span>
-        </span>
 
-        <h1 className="title">
-          Welcome to EventCo, <span className="custom-user">{username}</span>
-        </h1>
-        <div className="public-pos">
-          <PublicEvents />
+      <div className="dash-header">
+
+        <div className="rso-button-container">
+
+          
+
+          <div className="create-rso-button">
+            <Link to="/create-rso"><button className="create-rso">
+                Create an RSO 
+            </button></Link>
+          </div>
+
         </div>
-        <PrivateEvents />
-        <RSOEvents />
+      
+        <div className="admin-button-container">
+          {isAdmin===0 ? <div></div> : <div className="admin-button">
+          <Link to="/admin"><button className="admin">
+            Add an Event 
+          </button></Link></div>}</div>
+
+          <div className="location">
+            <span><div>Currently viewing</div>  <span className="custom-loc">{loc}</span></span>
+          </div>
+
+
       </div>
+      
+        <h1 className="title">Welcome to EventCo, <span className="custom-user">{username}</span></h1>
+        <div className="public-pos"><PublicEvents/></div>
+        <PrivateEvents/>
+        <RSOEvents/>
+    </div>
+
     </>
   );
 }
