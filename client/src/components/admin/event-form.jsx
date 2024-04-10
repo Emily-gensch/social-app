@@ -101,6 +101,7 @@ const EventForm = () => {
               {club.rso_name}
             </option>
           ))}
+          <option value="No RSO">No RSO</option>
         </select>
       </div>
       <input
