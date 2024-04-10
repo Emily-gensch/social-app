@@ -27,7 +27,9 @@ export default function RSOEvents() {
 
     const fetchRsoEvents = async () => {
       try {
-        const res = await axios.get(`http://localhost:8800/yourrsos/${userId}`);
+        const res = await axios.get(
+          `http://localhost:8800/yourrsoevents/${userId}`
+        );
         setEvents(res.data);
       } catch (err) {
         console.log(err);

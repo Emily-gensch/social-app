@@ -13,6 +13,12 @@ const clubs = [
 ];
 
 const EventForm = () => {
+  const [Rsos, setRsos] = useState([]);
+
+  const [userId, setUserId] = useState(
+    JSON.parse(localStorage.getItem("currentUser")).userid
+  );
+
   const [event, setEvent] = useState({
     name: "",
     cat: "",
@@ -25,9 +31,24 @@ const EventForm = () => {
     approved: 0,
     cover: "",
   });
-  const [error, setError] = useState(false);
 
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setUserId(JSON.parse(localStorage.getItem("currentUser")).userid);
+    console.log("found user id: ", userId);
+
+    const fetchRsos = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8800/yourrsos/${userId}`);
+        setRsos(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchRsos();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,9 +96,9 @@ const EventForm = () => {
           onChange={handleChange}
         >
           <option value="">Select a club</option>
-          {clubs.map((club) => (
-            <option key={club.id} value={club.name}>
-              {club.name}
+          {Rsos.map((club) => (
+            <option key={club.id} value={club.rso_name}>
+              {club.rso_name}
             </option>
           ))}
         </select>

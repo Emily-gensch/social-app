@@ -259,9 +259,22 @@ app.get("/rsomembers", (req, res) => {
 });
 
 // fetch all the rso events associated with a user's id
-app.get("/yourrsos/:userId", (req, res) => {
+app.get("/yourrsoevents/:userId", (req, res) => {
   const userId = req.params.userId;
   const q = "SELECT e.* FROM events e JOIN rsos r ON e.rso = r.rso_name JOIN userrso ru ON r.rsoid = ru.rsoid WHERE ru.userid = ?";
+  mydb.query(q, userId, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+// fetch all the rsos a user is an admin of
+app.get("/yourrsos/:userId", (req, res) => {
+  const userId = req.params.userId;
+  const q = "SELECT * FROM rsos WHERE owner = ?";
   mydb.query(q, userId, (err, data) => {
     if (err) {
       console.log(err);
