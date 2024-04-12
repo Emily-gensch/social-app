@@ -5,13 +5,6 @@ import DateTimePicker from "react-datetime-picker";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "../body/body.css";
 
-const clubs = [
-  { id: 1, name: "No RSO" },
-  { id: 2, name: "Club A" },
-  { id: 3, name: "Club B" },
-  { id: 4, name: "Club C" },
-];
-
 const EventForm = () => {
   const [Rsos, setRsos] = useState([]);
 

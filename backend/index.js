@@ -198,6 +198,7 @@ app.get("/users/:userid", (req, res) => {
   });
 });
 
+// sets a user as an administrator role
 app.put("/users/:userid", (req, res) => {
   const userId = req.params.userid;
   console.log("put id: ", userId)
@@ -267,6 +268,49 @@ app.get("/yourrsoevents/:userId", (req, res) => {
       console.log(err);
       return res.json(err);
     }
+    return res.json(data);
+  });
+});
+
+// fetch true(1)/false(0) value for whether the user is part of an rso
+// params: userid, rso_name
+app.get("/isinrso/:userId/:rso_name", (req, res) => {
+  const userId = req.params.userId;
+  const rso_name = req.params.rso_name;
+  const q = "SELECT EXISTS (SELECT 1 FROM userrso u JOIN rsos r ON u.rsoid = r.rsoid WHERE u.userid = ? AND r.rso_name = ?) AS is_member;";
+  mydb.query(q, [userId, rso_name], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+})
+
+// when a user joins rso, insert their id and the rso id into userrso joint table
+// TODO: THIS QUERY DOESN'T WORK, FIXME
+app.post("/userrso/:userId/:rso_name", (req, res) => {
+  const userId = req.params.userId;
+  const rso_name = req.params.rso_name;
+  const q = "INSERT INTO userrso (userid, rsoid) SELECT ?, rsos.rsoid FROM rsos WHERE rsos.rso_name = ?;";
+
+  mydb.query(q, [userId, rso_name], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    return res.json(data);
+  });
+});
+
+// allow user to leave rso by deleting their id and rsoid form the userrso table
+app.delete("/userrso/:userId/:rso_name", (req, res) => {
+  const userId = req.params.userId;
+  const rso_name = req.params.rso_name;
+  const q = "DELETE FROM userrso WHERE userid = ? AND rsoid = (SELECT rsoid FROM rsos WHERE rso_name = ?);";
+
+  mydb.query(q, [userId, rso_name], (err, data) => {
+    if (err) return res.send(err);
     return res.json(data);
   });
 });

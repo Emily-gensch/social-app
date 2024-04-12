@@ -4,26 +4,9 @@ import axios from "axios";
 import "./public-events.css";
 import flyer from "../../../assets/cultural_flyer.jpg";
 import Slider from "react-slick";
+import Modal from "../Modal";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const data = [
-  {
-    name: "Cultural Event",
-    img: { flyer },
-    date: "October 12, 2024",
-  },
-  {
-    name: "Gardening Event",
-    img: { flyer },
-    date: "October 30, 2024",
-  },
-  {
-    name: "Sporting Event",
-    img: { flyer },
-    date: "October 20, 2024",
-  },
-];
 
 const settings = {
   dots: true,
@@ -35,6 +18,18 @@ const settings = {
 
 const PublicEvents = () => {
   const [events, setEvents] = useState([]);
+  // determines whether to details pop-up is active
+  const [openModal, setOpenModal] = useState(false);
+  // stores the id of the event the user selected "details" for
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const openTheModal = (event) => {
+    setSelectedEvent(event);
+    setOpenModal(true);
+  };
+  const closeTheModal = () => {
+    setSelectedEvent(null);
+  };
 
   useEffect(() => {
     const fetchPublicEvents = async () => {
@@ -64,13 +59,25 @@ const PublicEvents = () => {
               <div className="flex flex-col justify-center items-center gap-4 p-4">
                 <p className="text-xl font-semibold">{d.name}</p>
                 <p>{d.datetime}</p>
-                <button className="bg-[#CD374F] text-white text-lg px-6 py-1 rounded xl">
+                <button
+                  className="bg-[#CD374F] text-white text-lg px-6 py-1 rounded xl"
+                  onClick={() => openTheModal(d)}
+                >
                   Details
                 </button>
               </div>
             </div>
           ))}
         </Slider>
+      </div>
+      <div className="modal=content">
+        {selectedEvent && (
+          <Modal
+            open={true}
+            onClose={() => closeTheModal()} // TO DO: FIX CLOSING SO IT ACTUALLY CLOSES
+            event={selectedEvent}
+          />
+        )}
       </div>
     </div>
   );
