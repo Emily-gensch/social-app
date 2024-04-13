@@ -1,0 +1,36 @@
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relfiative;
+}
+
+.dash-button {
+    display: inline;
+    flex-direction: right;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1;
+    width: 120px;
+    height: 40px;
+    background: black;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: auto 10px;
+    margin-top: 10px;;
+}
+
+.blob {
+    height: 250px;
+    width: 300px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-right: -50%;
+    z-index: 1;
+    transform: translate(-50%, -50%)
+}

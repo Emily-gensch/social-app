@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-datetime-picker/dist/DateTimePicker.css";
+import "./rso-form.css"
 
 export default function RsoForm() {
   // constants
@@ -151,11 +152,12 @@ export default function RsoForm() {
   };
 
   return (
+    
     <div className="rso-form">
-      <h1>Create New RSO</h1>
+      <div className="create-title">Enter Name of the RSO</div> 
 
       <div className="club-name">
-        <div className="input">
+        <div className="input-mem">
           <input
             type="text"
             name="rso_name"
@@ -166,30 +168,33 @@ export default function RsoForm() {
       </div>
 
       <div className="add-members">
-        <h1>Enter the members of your club:</h1>
+        <div className="create-title">Enter the members of your club:</div>
 
-        <div className="input-mem">
+        <div className="input-stuff">
           {[...Array(numEmails)].map((_, index) => (
             <div key={index}>
-              <input
-                type="text"
-                name={`newemail #${index + 1}`}
-                placeholder={`Email #${index + 1}`}
-                onChange={handleAddChange}
-              />
+              <div className="input-mem">
+                <input
+                  type="text"
+                  name={`newemail #${index + 1}`}
+                  placeholder={`Email #${index + 1}`}
+                  onChange={handleAddChange}
+                />
 
-              <button className="add-button" onClick={addToList}>
-                Add
-              </button>
+                <button className="add-button" onClick={addToList}>
+                  Add
+                </button>
+
+              </div>
             </div>
           ))}
 
           <button className="add-email" onClick={addEmail}>
-            Add Email
+            Add Additional Member
           </button>
 
           <div className="choose-admin">
-            <h1>Are you the admin of this club?</h1>
+            <div className="create-title">Are you the admin of this club?</div>
 
             <button className="yes" onClick={handleCurrentIsAdmin}>
               Yes

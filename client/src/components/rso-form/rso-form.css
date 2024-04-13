@@ -1,0 +1,92 @@
+.rso-form {
+    background: var(--lightBlue);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.create-title {
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+.input-stuff {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input-mem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 580px;
+    height: 60px;
+    background: white;
+    border-radius: 6px;
+}
+
+.input-mem input {
+    height: 50px;
+    width: 500px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: black;
+    font-size: 19px;
+    padding: 15px;
+}
+
+.add-button,
+.submit-rso-form {
+    display: inline;
+    flex-direction: right;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1;
+    width: 120px;
+    height: 40px;
+    background: black;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: auto 10px;
+    margin-top: 10px;
+}
+
+.add-email {
+    display: inline;
+    flex-direction: right;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1;
+    width: 220px;
+    height: 40px;
+    background: var(--blueColor);
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: auto 10px;
+    margin-top: 10px;
+}
+
+.yes,
+.no {
+    display: inline;
+    flex-direction: right;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1;
+    width: 100px;
+    height: 40px;
+    background: var(--blueColor);
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: auto 10px;
+    margin-top: 10px;
+}
