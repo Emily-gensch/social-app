@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import "./rso-form.css"
+import "./rso-form.css";
 
 export default function RsoForm() {
   // constants
@@ -30,6 +30,13 @@ export default function RsoForm() {
   const [rsoId, setRsoId] = useState(0);
   const [names, setNames] = useState([]);
   const navigate = useNavigate();
+  const thisisit = 0;
+
+  useEffect(() => {
+    if (userId) {
+      setRso((prev) => ({ ...prev, owner: userId }));
+    }
+  }, [userId]);
 
   // executes when rso name is filled in
   const handleChange = (e) => {
@@ -54,31 +61,23 @@ export default function RsoForm() {
         await axios.put(`http://localhost:8800/users/${userId}`, user);
 
         // create rso
-        console.log("posting rso", rso);
         const res = await axios.post("http://localhost:8800/rsos", rso);
-        console.log("rso id", res);
-        setRsoId(res.data.rsoid);
 
-        console.log("names", names);
+        // add current as member
+        await axios.post("http://localhost:8800/rsomembers", {
+          userid: JSON.parse(localStorage.getItem("currentUser")).userid,
+          rsoid: res.data.rsoid,
+        });
 
-        // add members
+        // add other members
         for (let i = 0; i < names.length; i++) {
           const response = await axios.post("http://localhost:8800/useremail", {
             email: names[i],
           });
 
-          console.log(
-            "RACHEL I AM HERE line 77!!!!!!!",
-            response.data.user.userid
-          );
-          setUserId(response.data.user.userid);
-
-          console.log("sending this userId: ", userId);
-          console.log("sending rsoId: ", rsoId);
-
           await axios.post("http://localhost:8800/rsomembers", {
-            userid: userId,
-            rsoid: rso.rsoid,
+            userid: response.data.user.userid,
+            rsoid: res.data.rsoid,
           });
         }
 
@@ -115,9 +114,7 @@ export default function RsoForm() {
         setUserExists("Unregistered user.");
       } else {
         setUserExists("User exists.");
-        console.log("RACHEL I AM HERE!!!!!!!", response.data.user.userid);
         setUserId(response.data.user.userid);
-        console.log("setUserId: ", userId);
         setRso((prev) => ({ ...prev, owner: userId }));
       }
       console.log(response.data);
@@ -128,7 +125,7 @@ export default function RsoForm() {
   };
 
   // executes when yes
-  const handleCurrentIsAdmin = async (e) => {
+  const handleCurrentIsAdmin = (e) => {
     e.preventDefault();
     setClubAdmin(true);
     setUserExists("User exists.");
@@ -136,9 +133,6 @@ export default function RsoForm() {
 
     const current = JSON.parse(localStorage.getItem("currentUser")).userid;
     setUserId(current);
-    console.log("handlecurrent userid:", userId);
-    setRso((prev) => ({ ...prev, owner: userId }));
-    console.log("current rso", rso);
   };
 
   // executes when add email is clicked
@@ -152,9 +146,8 @@ export default function RsoForm() {
   };
 
   return (
-    
     <div className="rso-form">
-      <div className="create-title">Enter Name of the RSO</div> 
+      <div className="create-title">Enter Name of the RSO</div>
 
       <div className="club-name">
         <div className="input-mem">
@@ -184,7 +177,6 @@ export default function RsoForm() {
                 <button className="add-button" onClick={addToList}>
                   Add
                 </button>
-
               </div>
             </div>
           ))}

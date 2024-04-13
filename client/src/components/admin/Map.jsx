@@ -3,7 +3,7 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 const Map = ({ handleMapClick }) => {
   return (
-    <LoadScript googleMapsApiKey="AIzaSyCR2u2ZZ3nJLovFgu3rtRPOuK9O9LCARI4">
+    <LoadScript googleMapsApiKey={process.env.REACT_APP_MAP_KEY}>
       <GoogleMap
         mapContainerStyle={{ width: "100%", height: "400px" }}
         center={{ lat: 0, lng: 0 }}

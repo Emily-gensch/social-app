@@ -15,7 +15,7 @@ const settings = {
   slidesToScroll: 3,
 };
 
-export default function RSOEvents() {
+const RSOEvents = () => {
   const [events, setEvents] = useState([]);
   const [userId, setUserId] = useState(
     JSON.parse(localStorage.getItem("currentUser")).userid
@@ -42,12 +42,12 @@ export default function RSOEvents() {
 
   return (
     <div className="w-3/4 m-auto">
-      <h3 className="public-header">Your RSO Events</h3>
-      <div className="mt-5">
+      <h3 className="public-header-rso">Your RSO Events</h3>
+      <div className="inline mt-5">
         <Slider {...settings}>
           {events.map((d) => (
-            <div className="bg-white h-[400px] text-black rounded-xl shadow-[5px_5px_var(--redColor)] ">
-              <div className="h-56 rounded-t-xl bg-#CD374F flex justify-center items-center">
+            <div className="inline bg-white h-[400px] text-black rounded-xl shadow-[5px_5px_var(--redColor)] ">
+              <div className="inline h-56 rounded-t-xl bg-#CD374F flex justify-center items-center">
                 <img src={flyer} alt="" className="h-44 w-44 rounded-md" />
               </div>
 
@@ -64,4 +64,6 @@ export default function RSOEvents() {
       </div>
     </div>
   );
-}
+};
+
+export default RSOEvents;

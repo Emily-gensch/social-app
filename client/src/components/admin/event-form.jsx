@@ -78,13 +78,18 @@ const EventForm = () => {
     }
   };
 
-  const handleMapClick = (event) => {
+  const handleMapClick = (e) => {
     const newMarker = {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng(),
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
     };
     setMarker(newMarker);
-    console.log(newMarker); // Log the new marker
+
+    const location = `${newMarker.lat}, ${newMarker.lng}`;
+    setEvent((prev) => ({
+      ...prev,
+      loc: location,
+    }));
   };
 
   return (
