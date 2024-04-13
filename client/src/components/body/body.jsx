@@ -5,7 +5,7 @@ import PrivateEvents from "./private-events/private-events";
 import RSOEvents from "./your-rso-events/rso-events";
 import { Link } from "react-router-dom";
 
-const username = "Rachel";
+const username = JSON.parse(localStorage.getItem("currentUser")).username;
 
 export default function Body() {
   const loc = "University of Central Florida";
@@ -73,8 +73,12 @@ export default function Body() {
         <div className="public-pos">
           <PublicEvents />
         </div>
-        <PrivateEvents />
-        <RSOEvents />
+        <div className="private-pos">
+          <PrivateEvents />
+        </div>
+        <div className="rso-pos">
+          <RSOEvents />
+        </div>
       </div>
     </>
   );

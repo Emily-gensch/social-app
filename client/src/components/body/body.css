@@ -83,7 +83,12 @@
     }
 
     .public-pos {
+        padding-top: 60px;
         z-index: 1;
+    }
+
+    .rso-pos {
+        padding-bottom: 30px;
     }
 
     .current-view {
@@ -104,6 +109,10 @@
 
     .custom-loc {
         text-decoration: underline;
+    }
+
+    .rso-pos {
+        display: block;
     }
 
 }

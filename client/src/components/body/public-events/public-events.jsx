@@ -50,7 +50,7 @@ const PublicEvents = () => {
       <div className="mt-5">
         <Slider {...settings}>
           {events.map((d) => (
-            <div className="bg-white h-[400px] text-black rounded-xl shadow-[5px_5px_var(--redColor)] ">
+            <div className="bg-white h-[400px] text-black rounded-xl shadow-[10px_5px_var(--redColor)] ">
               <div className="h-56 rounded-t-xl bg-#CD374F flex justify-center items-center">
                 <img src={flyer} alt="" className="h-44 w-44 rounded-md" />
               </div>
