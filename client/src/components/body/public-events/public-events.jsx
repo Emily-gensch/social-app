@@ -18,7 +18,7 @@ const settings = {
 
 const PublicEvents = () => {
   const [events, setEvents] = useState([]);
-  // determines whether to details pop-up is active
+  // determines whether the details pop-up is active
   const [openModal, setOpenModal] = useState(false);
   // stores the id of the event the user selected "details" for
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -28,6 +28,7 @@ const PublicEvents = () => {
     setOpenModal(true);
   };
   const closeTheModal = () => {
+    setOpenModal(false);
     setSelectedEvent(null);
   };
 
@@ -42,8 +43,6 @@ const PublicEvents = () => {
     };
     fetchPublicEvents();
   }, []);
-
-  console.log(events);
 
   return (
     <div className="w-3/4 m-auto">
@@ -71,13 +70,11 @@ const PublicEvents = () => {
         </Slider>
       </div>
       <div className="modal=content">
-        {selectedEvent && (
-          <Modal
-            open={true}
-            onClose={() => closeTheModal()} // TO DO: FIX CLOSING SO IT ACTUALLY CLOSES
-            event={selectedEvent}
-          />
-        )}
+        <Modal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          event={selectedEvent}
+        />
       </div>
     </div>
   );

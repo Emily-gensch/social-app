@@ -201,7 +201,6 @@ app.get("/users/:userid", (req, res) => {
 // sets a user as an administrator role
 app.put("/users/:userid", (req, res) => {
   const userId = req.params.userid;
-  console.log("put id: ", userId)
   const q = "UPDATE users SET admin = 1 WHERE userid = ?";
   // const q = "UPDATE users SET 'username' = ?, 'university' = ?, 'email' = ?, 'password' = ?, admin = ? WHERE userid = ?";
   /*
@@ -288,12 +287,10 @@ app.get("/isinrso/:userId/:rso_name", (req, res) => {
 })
 
 // when a user joins rso, insert their id and the rso id into userrso joint table
-// TODO: THIS QUERY DOESN'T WORK, FIXME
 app.post("/userrso/:userId/:rso_name", (req, res) => {
   const userId = req.params.userId;
   const rso_name = req.params.rso_name;
   const q = "INSERT INTO userrso (userid, rsoid) SELECT ?, rsos.rsoid FROM rsos WHERE rsos.rso_name = ?;";
-
   mydb.query(q, [userId, rso_name], (err, data) => {
     if (err){
       console.log(err);
@@ -351,6 +348,7 @@ app.post("/users", (req, res) => {
 
 app.post("/rsos", (req, res) => {
   console.log(req.body);
+  console.log(req.body.owner);
   const q = "INSERT INTO rsos (rso_name, owner) VALUES (?)";
 
   const values = [
@@ -368,6 +366,7 @@ app.post("/rsos", (req, res) => {
     }
   });
 });
+
 
 app.post("/rsomembers", (req, res) => {
   console.log(req.body);
@@ -454,6 +453,18 @@ app.post("/userid", (req, res) => {
         res.send({ message: "Unregistered user."});
       }
     }
+  });
+});
+
+app.get("/rsos/:rsoid", (req, res) => {
+  const id = req.params.rsoid;
+  const q = "SELECT * FROM mydb.rsos WHERE rsoid = ?";
+  mydb.query(q, id, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
   });
 });
 

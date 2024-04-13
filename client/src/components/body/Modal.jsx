@@ -1,6 +1,8 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./Modal.css";
 
 const Modal = ({ open, onClose, event }) => {
   // this determines whether "join" or "leave" button appears
@@ -9,28 +11,22 @@ const Modal = ({ open, onClose, event }) => {
   const [userId, setUserId] = useState(
     JSON.parse(localStorage.getItem("currentUser")).userid
   );
+  const navigate = useNavigate();
 
   // on rendering, check whether the user is part of the rso for the event
   useEffect(() => {
     setIsRSOMember(false);
     setUserId(JSON.parse(localStorage.getItem("currentUser")).userid);
     checkRSOMembership();
-  }, []);
+  });
 
   // queries whether user.id corresponds to event.rso_name
   const checkRSOMembership = async () => {
     try {
-      console.log(
-        "checking rso membershit with user ",
-        userId,
-        "and event ",
-        event.name
-      );
       const res = await axios.get(
         `http://localhost:8800/isinrso/${userId}/${event.rso}`
       );
       setIsRSOMember(res.data[0].is_member);
-      console.log("result on whether user is in rso: ", res.data[0].is_member);
     } catch (error) {
       console.error("Error checking RSO membership:", error);
     }
@@ -40,6 +36,7 @@ const Modal = ({ open, onClose, event }) => {
   const joinRSO = async () => {
     try {
       await axios.post(`http://localhost:8800/userrso/${userId}/${event.rso}`);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error joining RSO:", error);
     }
@@ -51,6 +48,7 @@ const Modal = ({ open, onClose, event }) => {
       await axios.delete(
         `http://localhost:8800/userrso/${userId}/${event.rso}`
       );
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error leaving RSO:", error);
     }

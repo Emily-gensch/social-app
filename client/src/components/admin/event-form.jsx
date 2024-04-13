@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DateTimePicker from "react-datetime-picker";
+import Map from "./Map";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "../body/body.css";
+import marker from "./Map";
 
 const EventForm = () => {
   const [Rsos, setRsos] = useState([]);
-
+  const [marker, setMarker] = useState(null);
   const [userId, setUserId] = useState(
     JSON.parse(localStorage.getItem("currentUser")).userid
   );
@@ -57,7 +59,6 @@ const EventForm = () => {
       }));
     } else {
       // For other inputs, update as usual
-      console.log("changed other input");
       setEvent((prev) => ({
         ...prev,
         [name]: value,
@@ -75,6 +76,15 @@ const EventForm = () => {
       console.log(err);
       setError(true);
     }
+  };
+
+  const handleMapClick = (event) => {
+    const newMarker = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    };
+    setMarker(newMarker);
+    console.log(newMarker); // Log the new marker
   };
 
   return (
@@ -147,6 +157,13 @@ const EventForm = () => {
         name="cover"
         onChange={handleChange}
       />
+      <h1>Pick a location</h1>
+      <Map handleMapClick={handleMapClick}></Map>
+      {marker && (
+        <div>
+          Latitude: {marker.lat}, Longitude: {marker.lng}
+        </div>
+      )}
       <button onClick={handleClick}>Add</button>
       {error && "Something went wrong!"}
       <Link to="/dashboard">See all events</Link>
