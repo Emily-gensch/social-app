@@ -45,8 +45,6 @@ const PrivateEvents = () => {
     fetchPrivateEvents();
   }, []);
 
-  console.log("private events", events);
-
   return (
     <div className="w-3/4 m-auto">
       <h3 className="private-header">Private Events</h3>
@@ -72,7 +70,7 @@ const PrivateEvents = () => {
           ))}
         </Slider>
       </div>
-      <div className="modal=content">
+      <div className="modal-content">
         <Modal
           open={openModal}
           onClose={() => setOpenModal(false)}

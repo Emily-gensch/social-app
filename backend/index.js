@@ -161,6 +161,13 @@ var junction_sql = "CREATE TABLE userRso (userid INT, rsoid INT, FOREIGN KEY (us
 mydb.query(junction_sql, function (err, result) {
   if (err) throw err;
   console.log("Junction table created!");
+  }) 
+
+// comments table
+var rso_sql = "CREATE TABLE comments (commentid INT AUTO_INCREMENT PRIMARY KEY, userid INT, username VARCHAR(255), eventid INT, comment VARCHAR(255), rating INT)";
+mydb.query(rso_sql, function (err, result) {
+  if (err) throw err;
+  console.log("Comments table created!");
   }) */
 
 
@@ -456,6 +463,21 @@ app.post("/userid", (req, res) => {
   });
 });
 
+app.get("/users/:userId", (req, res) => {
+  const userId = req.params.userId;
+  console.log(req.params.userId);
+  const q = "SELECT * FROM users WHERE userid = ?";
+
+  mydb.query(q, userId, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    } else {
+      return res.json(data);
+    }
+  });
+});
+
 app.get("/rsos/:rsoid", (req, res) => {
   const id = req.params.rsoid;
   const q = "SELECT * FROM mydb.rsos WHERE rsoid = ?";
@@ -466,6 +488,58 @@ app.get("/rsos/:rsoid", (req, res) => {
     }
     return res.json(data);
   });
+});
+
+// fetch all comments for a given event
+app.get("/comments/:eventId", (req, res) => {
+  const eventId = req.params.eventId;
+  const q = "SELECT * FROM comments WHERE eventid = ?";
+  mydb.query(q, eventId, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+// add a comment to the comments table
+app.post("/comments", (req, res) => {
+  const q = "INSERT INTO comments (userid, username, eventid, comment, rating) VALUES (?)";
+
+  const values = [
+    req.body.userid,
+    req.body.username,
+    req.body.eventid,
+    req.body.comment,
+    req.body.rating,
+  ];
+
+  mydb.query(q, [values], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.put("/comments/:commentid", (req, res) => {
+  const commentid = req.params.commentid;
+  const rating = req.body.rating;
+  console.log(req.body);
+  console.log(req.body.rating);
+  console.log(req.params.commentid);
+  const q = "UPDATE comments SET rating = ? WHERE commentid = ?";
+
+  mydb.query(q, rating, commentid, (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    return res.json(data);
+  });
+
 });
 
 app.listen(8800, () => {

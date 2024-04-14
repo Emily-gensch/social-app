@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Comments from "../rating_system/comments";
 import "./Modal.css";
 
 const Modal = ({ open, onClose, event }) => {
@@ -13,12 +14,15 @@ const Modal = ({ open, onClose, event }) => {
   );
   const navigate = useNavigate();
 
-  // on rendering, check whether the user is part of the rso for the event
   useEffect(() => {
-    setIsRSOMember(false);
-    setUserId(JSON.parse(localStorage.getItem("currentUser")).userid);
-    checkRSOMembership();
-  });
+    // Run the effect only when the modal is opened
+    if (open) {
+      // Check if user is in the rso of the selected event
+      setIsRSOMember(false);
+      setUserId(JSON.parse(localStorage.getItem("currentUser")).userid);
+      checkRSOMembership();
+    }
+  }, [open]);
 
   // queries whether user.id corresponds to event.rso_name
   const checkRSOMembership = async () => {
@@ -40,6 +44,8 @@ const Modal = ({ open, onClose, event }) => {
     } catch (error) {
       console.error("Error joining RSO:", error);
     }
+
+    setIsRSOMember(true);
   };
 
   // removes userid and rsoid from the userrso joint table
@@ -52,9 +58,21 @@ const Modal = ({ open, onClose, event }) => {
     } catch (error) {
       console.error("Error leaving RSO:", error);
     }
+
+    setIsRSOMember(false);
   };
 
-  if (!open) return null;
+  if (open) {
+    console.log("MODAL OPEN");
+    document.body.classList.add("modal-open");
+  }
+
+  if (!open) {
+    console.log("MODAL CLOSED");
+    document.body.classList.remove("modal-open");
+    return null;
+  }
+
   return (
     <div onClick={onClose} className="overlay">
       <div
@@ -74,6 +92,9 @@ const Modal = ({ open, onClose, event }) => {
             <p>Location: {event.loc}</p>
             <p>RSO: {event.rso}</p>
           </div>
+          <div className="comments">
+            <Comments event={event} />
+          </div>
           <div className="btnContainer">
             {isRSOMember ? (
               <button onClick={leaveRSO}>Leave RSO</button>
@@ -81,7 +102,6 @@ const Modal = ({ open, onClose, event }) => {
               <button onClick={joinRSO}>Join RSO</button>
             )}
           </div>
-          /* ADD RATING COMPONENT */ /* ADD COMMENTS COMPONENT */
         </div>
       </div>
     </div>

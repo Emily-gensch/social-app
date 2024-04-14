@@ -69,7 +69,7 @@ const PublicEvents = () => {
           ))}
         </Slider>
       </div>
-      <div className="modal=content">
+      <div className="modal-content">
         <Modal
           open={openModal}
           onClose={() => setOpenModal(false)}

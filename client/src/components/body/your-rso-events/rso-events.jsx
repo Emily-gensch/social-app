@@ -44,10 +44,7 @@ const RSOEvents = () => {
         const res = await axios.get(
           `http://localhost:8800/yourrsoevents/${userId}`
         );
-        //setEvents(res.data);
-        console.log("res.data", res.data[0]);
-        events.push(res.data[0]);
-        console.log("events array:", events);
+        setEvents((prev) => [...prev, res.data[0]]);
       } catch (err) {
         console.log(err);
       }
@@ -82,7 +79,7 @@ const RSOEvents = () => {
           ))}
         </Slider>
       </div>
-      <div className="modal=content">
+      <div className="modal-content">
         <Modal
           open={openModal}
           onClose={() => setOpenModal(false)}
