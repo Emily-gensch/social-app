@@ -37,6 +37,7 @@
     box-shadow: 0px 0px 18px 0px rgba(0, 0, 0, 0.75);
     border-radius: 8px;
     overflow-y: auto;
+    margin-top: 80px;
   }
   
   img {
@@ -54,6 +55,14 @@
     position: fixed;
     top: 8px;
     right: 8px;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    background: var(--redColor);
+    padding: 3px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 4px;
   }
   
   .content {
@@ -63,6 +72,15 @@
     text-align: center;
     margin-top: 3rem;
     padding: 1rem 2rem;
+
+    .event-name {
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    .event-rso-name {
+      font-size: 20px;
+    }
   }
   
   .btnContainer {
@@ -115,4 +133,16 @@
     .modal-open {
       overflow: hidden;
     }
+
   }
+
+  .blob {
+    height: 250px;
+    width: 300px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-right: -50%;
+    z-index: 1;
+    transform: translate(-50%, -50%)
+}

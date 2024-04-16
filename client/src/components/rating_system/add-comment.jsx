@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AddRating from "./rating";
+import "./comments.css";
 
 const AddComment = ({ userId, event, onCommentAdded }) => {
   const [error, setError] = useState(false);
@@ -69,8 +70,9 @@ const AddComment = ({ userId, event, onCommentAdded }) => {
 
   return (
     <div className="form">
-      <h1>Add New Comment</h1>
-      <textarea
+      <h1 className="add-comment">Add New Comment</h1>
+      <input
+        className="comment-text"
         rows={5}
         type="text"
         placeholder="Insert comment here..."

@@ -1,10 +1,26 @@
 import express from "express";
 import mysql from "mysql";
 import cors from "cors";
+import multer from "multer";
+import path from "path";
+import { dirname } from 'path';
 
 const app = express();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '../client/public/uploads')
+  },
+  filename: (req, file, cb) => {
+    console.log(file)
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({storage: storage})
+
 app.use(cors());
 app.use(express.json());
+//app.use(multer());
 
 const mydb = mysql.createConnection({
   host: "localhost",
@@ -18,6 +34,50 @@ const mydb = mysql.createConnection({
 app.get("/", (req, res) => {
   res.json("hello");
 });
+
+// upload event cover images
+app.post('/upload', upload.single('image'), (req, res) => {
+  const imageUrl = req.file.path; // Path of the uploaded image
+  const uploadsIndex = imageUrl.indexOf("\\uploads\\");
+  const relativeUrl = imageUrl.substring(uploadsIndex);
+  const eventId = req.body.eventid; // Assuming eventId is sent along with the request
+
+  console.log(imageUrl, eventId);
+
+  const query = 'UPDATE events SET cover = ? WHERE id = ?';
+  
+  mydb.query(query, [relativeUrl, eventId], (err, result) => {
+    if (err) {
+      console.error('Error updating event cover:', err);
+      res.status(500).send('Error uploading image');
+    } else {
+      console.log('Event cover updated successfully');
+      res.status(200).send('Image uploaded successfully');
+    }
+  });
+});
+
+app.get('/event/:eventId/cover', (req, res) => {
+  const eventId = req.params.eventId;
+  const query = 'SELECT cover FROM events WHERE id = ?';
+
+  mydb.query(query, [eventId], (err, result) => {
+    if (err) {
+      console.error('Error fetching image URL:', err);
+      res.status(500).send('Error fetching image');
+    } else {
+      if (result.length > 0) {
+        const imageUrl = result[0].cover;
+        res.json({ cover: imageUrl });
+      } else {
+        res.status(404).send('Event not found');
+      }
+    }
+  });
+});
+
+app.get ('/uploads/')
+
 
 app.get("/events", (req, res) => {
   const q = "SELECT * FROM events";
@@ -168,8 +228,15 @@ var rso_sql = "CREATE TABLE comments (commentid INT AUTO_INCREMENT PRIMARY KEY, 
 mydb.query(rso_sql, function (err, result) {
   if (err) throw err;
   console.log("Comments table created!");
-  }) */
-
+  }) 
+  
+  // university table
+var rso_sql = "CREATE TABLE university (name VARCHAR(255) PRIMARY KEY, loc VARCHAR(255), description VARCHAR(255), num_of_students VARCHAR(255), cover VARCHAR(255))";
+mydb.query(rso_sql, function (err, result) {
+  if (err) throw err;
+  console.log("University table created!");
+})
+  */
 
 app.get("/users", (req, res) => {
   const q = "SELECT * FROM users";
@@ -490,6 +557,18 @@ app.get("/rsos/:rsoid", (req, res) => {
   });
 });
 
+// fetch all comments
+app.get("/comments", (req, res) => {
+  const q = "SELECT * FROM comments";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
 // fetch all comments for a given event
 app.get("/comments/:eventId", (req, res) => {
   const eventId = req.params.eventId;
@@ -524,15 +603,13 @@ app.post("/comments", (req, res) => {
   });
 });
 
+// edit comment
 app.put("/comments/:commentid", (req, res) => {
   const commentid = req.params.commentid;
-  const rating = req.body.rating;
-  console.log(req.body);
-  console.log(req.body.rating);
-  console.log(req.params.commentid);
-  const q = "UPDATE comments SET rating = ? WHERE commentid = ?";
+  const com = req.body.comment;
+  const q = "UPDATE comments SET comment = ? WHERE commentid = ?";
 
-  mydb.query(q, rating, commentid, (err, data) => {
+  mydb.query(q, [com, commentid], (err, data) => {
     if (err){
       console.log(err);
       return res.send(err);
@@ -540,6 +617,51 @@ app.put("/comments/:commentid", (req, res) => {
     return res.json(data);
   });
 
+});
+
+// delete comment
+app.delete("/comments/:commentid", (req, res) => {
+  const commentId = req.params.commentid;
+  console.log("commentId", commentId);
+  const q = "DELETE FROM comments WHERE commentid = ?";
+
+  mydb.query(q, commentId, (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+// update university
+app.put("/university", (req, res) => {
+  const q = "UPDATE university SET name = ?, loc = ?, description = ?, num_of_students = ?, cover = ? WHERE id = ?";
+
+  const values = [
+    req.body.name,
+    req.body.loc,
+    req.body.description,
+    req.body.num_of_students,
+    req.body.cover,
+    req.body.id,
+  ];
+
+  mydb.query(q, values, (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    return res.json(data);
+  });
+});
+
+app.get("/university", (req, res) => {
+  const q = "SELECT name FROM university WHERE id = 1";
+  mydb.query(q, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.json(data);
+  });
 });
 
 app.listen(8800, () => {

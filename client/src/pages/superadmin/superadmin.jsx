@@ -1,5 +1,6 @@
 import React from "react";
 import ApprovalForm from "../../components/superadmin/approval-form";
+import UniversityForm from "../../components/superadmin/university-form";
 import { Link } from "react-router-dom";
 
 export default function SuperAdmin() {
@@ -11,6 +12,7 @@ export default function SuperAdmin() {
       <div className="main-content">
         <h1 className="title">Super Admin Page</h1>
         <ApprovalForm />
+        <UniversityForm />
       </div>
     </div>
   );

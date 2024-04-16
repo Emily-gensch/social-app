@@ -86,11 +86,11 @@ const Modal = ({ open, onClose, event }) => {
             X
           </p>
           <div className="content">
-            <h1>{event.name}</h1>
+            <h1 className="event-name">{event.name}</h1>
+            <p className="event-rso-name">{event.rso}</p>
             <p>Description: {event.description}</p>
             <p>Date/Time: {event.datetime}</p>
             <p>Location: {event.loc}</p>
-            <p>RSO: {event.rso}</p>
           </div>
           <div className="comments">
             <Comments event={event} />
@@ -101,6 +101,9 @@ const Modal = ({ open, onClose, event }) => {
             ) : (
               <button onClick={joinRSO}>Join RSO</button>
             )}
+          </div>
+          <div className="add-to-calendar">
+            <button>Add to Calendar</button>
           </div>
         </div>
       </div>

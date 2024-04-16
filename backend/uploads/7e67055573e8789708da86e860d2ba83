@@ -1,0 +1,13 @@
+join table with columns:
+
+user id
+event id
+
+
+add to calendar button clicked -> add to table -> curr user, event id
+
+inside upcoming events component
+---------
+app.get(select * from userevents where userid = (curruser)
+map(d)
+	display d.name and d.datetime

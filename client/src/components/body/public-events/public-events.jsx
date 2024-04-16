@@ -2,9 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./public-events.css";
-import flyer from "../../../assets/cultural_flyer.jpg";
 import Slider from "react-slick";
 import Modal from "../Modal";
+import ImageDisplay from "../image-display";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -52,9 +52,8 @@ const PublicEvents = () => {
           {events.map((d) => (
             <div className="bg-white h-[400px] text-black rounded-xl shadow-[10px_5px_var(--redColor)] ">
               <div className="h-56 rounded-t-xl bg-#CD374F flex justify-center items-center">
-                <img src={flyer} alt="" className="h-44 w-44 rounded-md" />
+                <ImageDisplay eventId={d.id} />
               </div>
-
               <div className="flex flex-col justify-center items-center gap-4 p-4">
                 <p className="text-xl font-semibold">{d.name}</p>
                 <p>{d.datetime}</p>
@@ -81,3 +80,5 @@ const PublicEvents = () => {
 };
 
 export default PublicEvents;
+
+// <img src={flyer} alt="" className="h-44 w-44 rounded-md" />

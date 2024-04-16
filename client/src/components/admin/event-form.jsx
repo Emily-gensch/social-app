@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DateTimePicker from "react-datetime-picker";
 import Map from "./Map";
+import ImageUploader from "./image-uploader";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "../body/body.css";
-import marker from "./Map";
 
 const EventForm = () => {
   const [Rsos, setRsos] = useState([]);
   const [marker, setMarker] = useState(null);
+  const [eventId, setEventId] = useState();
   const [userId, setUserId] = useState(
     JSON.parse(localStorage.getItem("currentUser")).userid
   );
@@ -70,8 +71,10 @@ const EventForm = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8800/events", event);
-      navigate("/");
+      const res = await axios.post("http://localhost:8800/events", event);
+      console.log(res.data.insertId);
+      setEventId(res.data.insertId);
+      //navigate("/");
     } catch (err) {
       console.log(err);
       setError(true);
@@ -170,6 +173,7 @@ const EventForm = () => {
         </div>
       )}
       <button onClick={handleClick}>Add</button>
+      <ImageUploader eventId={eventId} />
       {error && "Something went wrong!"}
       <Link to="/dashboard">See all events</Link>
     </div>

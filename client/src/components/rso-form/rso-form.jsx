@@ -29,8 +29,9 @@ export default function RsoForm() {
   const [error, setError] = useState(false);
   const [rsoId, setRsoId] = useState(0);
   const [names, setNames] = useState([]);
+  const [invalid, setInvalid] = useState(false);
+  const [invalidIndex, setInvalidIndex] = useState("");
   const navigate = useNavigate();
-  const thisisit = 0;
 
   useEffect(() => {
     if (userId) {
@@ -45,8 +46,20 @@ export default function RsoForm() {
   };
 
   // executes when new member email is input
-  const handleAddChange = (event) => {
-    setEmailToAdd(event.target.value);
+  const handleAddChange = (email) => {
+    setEmailToAdd(email.target.value);
+  };
+
+  const handleAddBlur = (index) => {
+    let re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (re.test(emailToAdd)) {
+      setInvalid(false);
+    } else {
+      setInvalid(true);
+      setInvalidIndex(index);
+    }
   };
 
   // executes on submit
@@ -142,7 +155,9 @@ export default function RsoForm() {
 
   const addToList = () => {
     console.log("email: ", emailToAdd);
-    setNames((prev) => [...prev, emailToAdd]);
+    if (!invalid) {
+      setNames((prev) => [...prev, emailToAdd]);
+    }
   };
 
   return (
@@ -168,15 +183,20 @@ export default function RsoForm() {
             <div key={index}>
               <div className="input-mem">
                 <input
-                  type="text"
+                  type="email"
                   name={`newemail #${index + 1}`}
                   placeholder={`Email #${index + 1}`}
                   onChange={handleAddChange}
+                  onBlur={() => handleAddBlur(index)}
                 />
-
                 <button className="add-button" onClick={addToList}>
                   Add
                 </button>
+                {invalid === true && invalidIndex === index ? (
+                  <div className="invalid-input">Invalid email domain.</div>
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
           ))}

@@ -9,7 +9,7 @@
 }
 
 .dash-button {
-    display: inline;
+    display: inline-block;
     flex-direction: right;
     justify-content: center;
     align-items: center;
