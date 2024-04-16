@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Comments from "../rating_system/comments";
+import AddToCalendarButton from "./add-to-calendar/add-to-calendar";
 import "./Modal.css";
 
 const Modal = ({ open, onClose, event }) => {
@@ -63,12 +64,10 @@ const Modal = ({ open, onClose, event }) => {
   };
 
   if (open) {
-    console.log("MODAL OPEN");
     document.body.classList.add("modal-open");
   }
 
   if (!open) {
-    console.log("MODAL CLOSED");
     document.body.classList.remove("modal-open");
     return null;
   }
@@ -103,7 +102,7 @@ const Modal = ({ open, onClose, event }) => {
             )}
           </div>
           <div className="add-to-calendar">
-            <button>Add to Calendar</button>
+            <AddToCalendarButton userId={userId} eventId={event.id} />
           </div>
         </div>
       </div>

@@ -159,12 +159,6 @@ const EventForm = () => {
         name="rso_email"
         onChange={handleChange}
       />
-      <input
-        type="text"
-        placeholder="Cover image"
-        name="cover"
-        onChange={handleChange}
-      />
       <h1>Pick a location</h1>
       <Map handleMapClick={handleMapClick}></Map>
       {marker && (

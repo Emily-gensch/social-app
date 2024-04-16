@@ -236,7 +236,16 @@ mydb.query(rso_sql, function (err, result) {
   if (err) throw err;
   console.log("University table created!");
 })
+
+// userevents table
+var rso_sql = "CREATE TABLE userevents (eventId INT PRIMARY KEY, userId INT)";
+mydb.query(rso_sql, function (err, result) {
+  if (err) throw err;
+  console.log("userevents table created!");
+})
   */
+
+
 
 app.get("/users", (req, res) => {
   const q = "SELECT * FROM users";
@@ -318,6 +327,33 @@ app.post("/users/:userid", (req, res) => {
         res.send({ message: "Incorrect email/password."});
       }
     }
+  });
+});
+
+// when a user adds event to calendar, store userid and eventid in usersevent table
+app.post("/userevents/:eventId/:userId", (req, res) => {
+  const eventId = req.params.eventId;
+  const userId = req.params.userId;
+  const q = "INSERT INTO userevents (`eventId`, `userId`) VALUES (?, ?);";
+  mydb.query(q, [eventId, userId], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    return res.json(data);
+  });
+});
+
+// get the user's upcoming events
+app.get("/userevents/:userId", (req, res) => {
+  const userId = req.params.userId;
+  const q = "SELECT e.* FROM events e JOIN userevents ue ON e.id = ue.eventId WHERE ue.userId = ?;";
+  mydb.query(q, [userId], (err, data) => {
+    if (err){
+      console.log(err);
+      return res.send(err);
+    }
+    return res.json(data);
   });
 });
 
