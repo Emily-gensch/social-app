@@ -90,3 +90,21 @@
     margin: auto 10px;
     margin-top: 10px;
 }
+
+.choose-admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-condition {
+    margin: 10px;
+    margin-bottom: 10px;
+}
+
+.failed-submit, 
+.exists {
+    margin-left: 20px;
+    font-style: italic;
+}

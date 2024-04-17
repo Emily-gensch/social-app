@@ -25,6 +25,7 @@ const RSOEvents = () => {
   const [openModal, setOpenModal] = useState(false);
   // stores the id of the event the user selected "details" for
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [index, setIndex] = useState(0);
 
   const openTheModal = (event) => {
     setSelectedEvent(event);
@@ -44,7 +45,13 @@ const RSOEvents = () => {
         const res = await axios.get(
           `http://localhost:8800/yourrsoevents/${userId}`
         );
-        setEvents((prev) => [...prev, res.data[0]]);
+        console.log("index", index);
+        const eventsWithIndex = res.data.map((event, i) => ({
+          ...event,
+          index: index + i,
+        }));
+        setEvents((prev) => [...prev, ...eventsWithIndex]);
+        setIndex((prevIndex) => prevIndex + 1);
       } catch (err) {
         console.log(err);
       }
@@ -69,7 +76,7 @@ const RSOEvents = () => {
                 <p className="text-xl font-semibold">{d.name}</p>
                 <p>{d.datetime}</p>
                 <button
-                  className="bg-[#CD374F] text-white text-lg px-6 py-1 rounded xl"
+                  className="bg-[var(--purpleColor)] text-white text-lg px-6 py-1 rounded xl"
                   onClick={() => openTheModal(d)}
                 >
                   Details

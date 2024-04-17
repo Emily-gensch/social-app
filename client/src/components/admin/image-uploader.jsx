@@ -36,7 +36,9 @@ const ImageUploader = (eventId) => {
   return (
     <div>
       <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload Image</button>
+      <button className="admin-buttons" onClick={handleUpload}>
+        Upload Image
+      </button>
     </div>
   );
 };

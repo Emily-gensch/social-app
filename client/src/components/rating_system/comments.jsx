@@ -85,9 +85,9 @@ const Comments = ({ event }) => {
       {comments.map((d) => (
         <div className="per-comment">
           <div className="comment-content">
-            <p>{d.username}</p>
+            <p className="username-comment">{d.username}</p>
             <p>{d.comment}</p>
-            <p>{d.rating}</p>
+            <p className="rating-comment">{d.rating}/5 Stars</p>
           </div>
           {checkCommentOwnership(d) === true ? (
             <div>

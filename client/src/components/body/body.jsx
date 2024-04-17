@@ -49,7 +49,7 @@ export default function Body() {
 
           <div className="location">
             <span>
-              <div>Currently viewing</div>{" "}
+              <div className="viewing">Currently viewing</div>{" "}
               <span className="custom-loc">{loc}</span>
             </span>
           </div>

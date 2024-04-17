@@ -6,6 +6,7 @@ import Map from "./Map";
 import ImageUploader from "./image-uploader";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "../body/body.css";
+import "./event-form.css";
 
 const EventForm = () => {
   const [Rsos, setRsos] = useState([]);
@@ -99,14 +100,18 @@ const EventForm = () => {
     <div className="form">
       <h1>Add New Event</h1>
       <div className="clubDropdown">
-        <label htmlFor="clubSelect">Select RSO:</label>
+        <label className="clubSelect" htmlFor="clubSelect">
+          Select RSO:
+        </label>
         <select
           type="select"
           placeholder="Select RSO"
           name="rso"
           onChange={handleChange}
         >
-          <option value="">Select a club</option>
+          <option className="select-a-club" value="">
+            Select a club
+          </option>
           {Rsos.map((club) => (
             <option key={club.id} value={club.rso_name}>
               {club.rso_name}
@@ -116,18 +121,21 @@ const EventForm = () => {
         </select>
       </div>
       <input
+        className="input-admin"
         type="text"
         placeholder="Event name"
         name="name"
         onChange={handleChange}
       />
       <input
+        className="input-admin"
         type="text"
         placeholder="Event category"
         name="cat"
         onChange={handleChange}
       />
       <textarea
+        className="input-admin"
         rows={5}
         type="text"
         placeholder="Event description"
@@ -135,6 +143,7 @@ const EventForm = () => {
         onChange={handleChange}
       />
       <DateTimePicker
+        className="date-time-container"
         onChange={(value) => {
           const formattedDateTime = new Date(value)
             .toISOString()
@@ -147,13 +156,16 @@ const EventForm = () => {
         }}
         value={event.datetime}
       />
+      <div className="buffer-admin"></div>
       <input
+        className="input-admin"
         type="text"
         placeholder="Contact phone number"
         name="rso_phone"
         onChange={handleChange}
       />
       <input
+        className="input-admin"
         type="text"
         placeholder="Contact email address"
         name="rso_email"
@@ -166,8 +178,12 @@ const EventForm = () => {
           Latitude: {marker.lat}, Longitude: {marker.lng}
         </div>
       )}
-      <button onClick={handleClick}>Add</button>
-      <ImageUploader eventId={eventId} />
+      <button className="admin-buttons" onClick={handleClick}>
+        Add
+      </button>
+      <div className="choose-file">
+        <ImageUploader eventId={eventId} />{" "}
+      </div>
       {error && "Something went wrong!"}
       <Link to="/dashboard">See all events</Link>
     </div>

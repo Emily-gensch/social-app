@@ -208,24 +208,25 @@ export default function RsoForm() {
           <div className="choose-admin">
             <div className="create-title">Are you the admin of this club?</div>
 
-            <button className="yes" onClick={handleCurrentIsAdmin}>
-              Yes
-            </button>
+            <span>
+              <button className="yes" onClick={handleCurrentIsAdmin}>
+                Yes
+              </button>
 
-            <button className="no" onClick={() => setClubAdmin(false)}>
-              No
-            </button>
+              <button className="no" onClick={() => setClubAdmin(false)}>
+                No
+              </button>
+            </span>
 
             {clubAdmin === true ? (
               <div></div>
             ) : (
               <div className="no-condition">
-                <h1>Enter the admin's email:</h1>
-                <div className="input">
+                <div className="input-mem">
                   <input
                     type="text"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Enter admin email..."
                     onChange={handleNewAdmin}
                   />
                 </div>

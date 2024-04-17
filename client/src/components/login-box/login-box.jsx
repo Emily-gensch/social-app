@@ -37,14 +37,14 @@ export default function LogInBox() {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8800/login", {
-        email: user.email, 
-        password: user.password
+        email: user.email,
+        password: user.password,
       });
-      if (response.data.message==="Incorrect email/password.") {
+      if (response.data.message === "Incorrect email/password.") {
         setLogInState("Incorrect email/password.");
       } else {
         const userData = response.data.user;
-        localStorage.setItem('currentUser', JSON.stringify(userData));
+        localStorage.setItem("currentUser", JSON.stringify(userData));
         const userId = userData.userid;
         navigate("/dashboard");
       }
@@ -80,11 +80,7 @@ export default function LogInBox() {
           </div>
         </div>
 
-        {action === "Sign Up" ? (
-          <div className="buffer"></div>
-        ) : (
-          <div></div>
-        )}
+        {action === "Sign Up" ? <div className="buffer"></div> : <div></div>}
 
         <div className="inputs">
           {action === "Login" ? (
@@ -128,26 +124,20 @@ export default function LogInBox() {
             />
           </div>
         </div>
-        {action === "Sign Up" ? (
-          <div></div>
-        ) : (
-          <div className="forgot-password">
-            <span>Forgot Password?</span>
-          </div>
-        )}
 
         <div className="buffer"></div>
 
-        <button className="submit-button" onClick={action==="Sign Up" ? handleSignUp : handleLogin}>
+        <button
+          className="submit-button"
+          onClick={action === "Sign Up" ? handleSignUp : handleLogin}
+        >
           {action === "Sign Up" ? "Sign Up" : "Login"}
         </button>
 
         <div className="buffer"></div>
 
         <div className="incorrect">{logInState}</div>
-        
       </div>
-
     </div>
   );
 }

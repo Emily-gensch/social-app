@@ -1,0 +1,35 @@
+.Dashboard {
+    display: inline-block;
+    flex-direction: right;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 1;
+    width: 120px;
+    height: 40px;
+    background: black;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: auto 10px;
+    margin-top: 10px;;
+}
+
+.main-content-admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relfiative;
+    margin-bottom: 40px;
+}
+
+.title-admin {
+    text-align: center;
+        width:100%;
+        font-size: 70px;
+        font-weight: 500;
+        color: white;
+        z-index: 1;
+        text-shadow: 3px 3px 2px #1d3853;
+}

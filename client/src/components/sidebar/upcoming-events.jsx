@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./upcoming-events.css";
 
 const UpcomingEvents = ({ userId }) => {
   const [events, setEvents] = useState([]);
@@ -24,7 +25,9 @@ const UpcomingEvents = ({ userId }) => {
         {events.map((event) => (
           <div key={event.id}>{event.name}</div>
         ))}
-        {events.length === 0 && <div>No upcoming events</div>}
+        {events.length === 0 && (
+          <div className="no-upcoming">No upcoming events</div>
+        )}
       </div>
     </div>
   );

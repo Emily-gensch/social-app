@@ -182,7 +182,7 @@ app.put("/events/:id", (req, res) => {
 
   // mydb.query(q, [...values, eventId], (err, data)
 
-  mydb.query(q, [...eventId], (err, data) => {
+  mydb.query(q, eventId, (err, data) => {
     if (err){
       console.log(err);
       return res.send(err);
